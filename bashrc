@@ -4,5 +4,7 @@ alias ls='ls --color'
 
 export editor=emacs
 alias emacs='emacs -nw'
+alias ..='cd ..'
+alias ...='cd ...'
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
