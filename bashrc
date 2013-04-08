@@ -8,7 +8,7 @@ alias ..='cd ..'
 alias ...='cd ...'
 
 alias gitlog="log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\"
+alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
