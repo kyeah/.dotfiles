@@ -12,7 +12,10 @@ alias gitlog="log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH=$PATH:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
+# Add RVM (Ruby Virt Machine) to PATH for scripting
+# Add Android-Studio, Genymotion to path
+
 
 extract () {
    if [ -f $1 ] ; then

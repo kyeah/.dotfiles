@@ -28,7 +28,25 @@
 
 (setq-default indent-tabs-mode nil)
 
-(require 'color-theme) ;;Must apt-get install emacs-goodies-el first
-(color-theme-initialize)
-(load-file "color-theme-twilight.el")
-(color-theme-twilight)
+;;(require 'color-theme) ;;Must apt-get install emacs-goodies-el first
+;;(color-theme-initialize)
+;;(load-file "color-theme-twilight.el")
+;;(color-theme-twilight)
+
+(load "~/.emacs.d/floobits/floobits.el")
+
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+;; Auto-Complete
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
+(ac-config-default)
+
+;; C-Eldoc (show function parameters)
+(setq c-eldoc-includes "`pkg-config gtk+-2.0 --cflags` -I./ -I../ ")
+(load "c-eldoc")
+(add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
