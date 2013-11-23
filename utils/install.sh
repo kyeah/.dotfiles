@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ignore=( scripts backups install.sh )
+ignore=( el utils backups install.sh )
 
 DIR=~/.dotfiles
 

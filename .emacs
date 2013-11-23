@@ -33,7 +33,7 @@
 ;;(load-file "color-theme-twilight.el")
 ;;(color-theme-twilight)
 
-(load "~/.emacs.d/floobits/floobits.el")
+;;(load "~/.emacs.d/floobits/floobits.el")
 
 (require 'package)
 (add-to-list 'package-archives
@@ -48,5 +48,11 @@
 
 ;; C-Eldoc (show function parameters)
 (setq c-eldoc-includes "`pkg-config gtk+-2.0 --cflags` -I./ -I../ ")
-(load "c-eldoc")
 (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
+(add-to-list 'load-path "~/.dotfiles/el")
+
+;; Jade
+(require 'sws-mode)
+(require 'jade-mode)    
+(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
+(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
