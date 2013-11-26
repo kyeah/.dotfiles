@@ -28,13 +28,23 @@
 
 (setq-default indent-tabs-mode nil)
 
+;; Twilight Theme for windowed emacs
 ;; don't forget to add file to load path
 ;;(require 'color-theme) ;;Must apt-get install emacs-goodies-el first
 ;;(color-theme-initialize)
 ;;(load-file "color-theme-twilight.el")
 ;;(color-theme-twilight)
 
-;;(load "~/.emacs.d/floobits/floobits.el")
+;; Floobit Aliases!
+(defalias 'floo-join 'floobits-join-workspace)
+(defalias 'floo-share-pub 'floobits-share-dir-public)
+(defalias 'floo-share-priv 'floobits-share-dir-private)
+(defalias 'floo-leave 'floobits-leave-workspace)
+(defalias 'floo-summon 'floobits-summon)
+(defalias 'floo-follow-toggle 'floobits-follow-mode-toggle)
+(defalias 'floo-clear-hl 'floobits-clear-highlights)
+;; Extra: C-x r l <RET> will show bookmarks, which are created for each user's last action
+;; when joining a workspace.
 
 (require 'package)
 (add-to-list 'package-archives
@@ -57,3 +67,9 @@
 (require 'jade-mode)    
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+
+;; List of Package Installs:
+;; auto-complete
+;; c-eldoc
+;; jade-mode
+;; floobits
