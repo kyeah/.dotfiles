@@ -28,6 +28,7 @@
 
 (setq-default indent-tabs-mode nil)
 
+;; don't forget to add file to load path
 ;;(require 'color-theme) ;;Must apt-get install emacs-goodies-el first
 ;;(color-theme-initialize)
 ;;(load-file "color-theme-twilight.el")
