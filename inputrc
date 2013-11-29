@@ -1,4 +1,4 @@
-# Keybindings; to find the appropriate char sequence for a keypress, run standalone 'cat' and perform the keypress.
+# Keybindings; to find the appropriate char sequence for a keypress, run standalone 'cat' and perform the keypress. '\e' will be outputted as '^['.
 
 "\e[1;3D": backward-word  # Alt-LEFT
 "\e[1;3C": forward-word   # Alt-RIGHT
