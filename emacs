@@ -80,3 +80,4 @@
 ;; c-eldoc
 ;; jade-mode
 ;; floobits
+;; color-theme

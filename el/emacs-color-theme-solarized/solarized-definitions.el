@@ -70,7 +70,7 @@ the \"Gen RGB\" column in solarized-definitions.el to improve them further."
     (red     "#dc322f" "#c60007" "#d70000" "red"           "red")
     (magenta "#d33682" "#c61b6e" "#af005f" "magenta"       "magenta")
     (violet  "#6c71c4" "#5859b7" "#5f5faf" "brightmagenta" "magenta")
-    (blue    "#268bd2" "#2075c7" "#0087ff" "blue"          "blue")
+    (blue    "#268bd2" "#2075c7" "#0087ff" "cyan"          "pink")
     (cyan    "#2aa198" "#259185" "#00afaf" "cyan"          "cyan")
     (green   "#859900" "#728a05" "#5f8700" "green"         "green"))
   "This is a table of all the colors used by the Solarized color theme. Each
