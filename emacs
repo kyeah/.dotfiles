@@ -14,26 +14,15 @@
 ; (setq text-mode-hook 'turn-on-auto-fill)
 ; (setq fill-column 80)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
+ '(indent-tabs-mode nil)          ;; Convert all tabs to spaces
+ '(cua-remap-control-z nil)       ;; Prevent CUA-mode from overriding ctrl-z
+ '(transient-mark-mode t)         ;; make the current 'selection' visible
+ '(delete-selection-mode t)       ;; delete the selection area with a keypress
+ '(inhibit-startup-screen t))     ;; No startup screen
 
-(setq-default indent-tabs-mode nil)
+(custom-set-faces)
 
-;; Twilight Theme for windowed emacs
-;; don't forget to add file to load path
-;;(require 'color-theme) ;;Must apt-get install emacs-goodies-el first
-;;(color-theme-initialize)
-;;(load-file "color-theme-twilight.el")
-;;(color-theme-twilight)
+(cua-mode t)
 
 ;; Floobit Aliases!
 (defalias 'floo-join 'floobits-join-workspace)
@@ -48,7 +37,7 @@
 
 (require 'package)
 (add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; Auto-Complete
@@ -67,6 +56,14 @@
 (require 'jade-mode)    
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+
+;; Color-theme
+(require 'color-theme)
+(color-theme-initialize)
+(add-to-list 'custom-theme-load-path "~/.dotfiles/el/emacs-color-theme-solarized")
+;;(load-file "~/.dotfiles/el/color-theme-twilight.el")
+;;(color-theme-twilight)
+(load-theme 'solarized-dark t)
 
 ;; List of Package Installs:
 ;; auto-complete

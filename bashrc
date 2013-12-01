@@ -3,7 +3,7 @@ export LSCOLORS="BaGxcxdxCxegedabagacad"
 alias ls='ls --color'
 
 export editor=emacs
-alias emacs='emacs -nw'
+alias emacs='TERM=xterm-256color emacs -nw'  # Emacs terminal mode with dirty 256-color hack
 alias ..='cd ..'
 alias ...='cd ...'
 
@@ -85,3 +85,4 @@ export -f mkuniq
 export -f mkgibo
 export -f flac2mp3
 export -f extract
+
