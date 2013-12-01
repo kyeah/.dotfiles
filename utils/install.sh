@@ -16,7 +16,7 @@ do
     installpath=~/.${filename}
     filetype=TYPE_LINK
     specialindex=0
-    
+
     # check if the file has a special installation path
     for specialname in ${special[@]}
     do
@@ -26,37 +26,37 @@ do
             installpath=${specialpath[specialindex]}
             break
         fi
-        
+
         true $((specialindex++))
     done
-    
-	# check if the file should be ignored        
-        if ! [[ $filetype == TYPE_SPECIAL ]]
+
+    # check if the file should be ignored
+    if ! [[ $filetype == TYPE_SPECIAL ]]
+    then
+        for ignorename in ${ignore[@]}
+        do
+            if [[ $filename == $ignorename ]]
+            then
+                filetype=TYPE_IGNORE
+            fi
+        done
+    fi
+
+    # if you shouldn't ignore, and it's not already linked
+    if [ $filetype != TYPE_IGNORE -a ! -L $installpath ]
+    then
+
+        # move old versions moved to backup dir
+        if [ -e $installpath ]
         then
-	    for ignorename in ${ignore[@]}
-	    do
-	        if [[ $filename == $ignorename ]]
-	        then
-		    filetype=TYPE_IGNORE
-	        fi
-	    done
+            echo ${filename} moved to ${DIR}/backups/${filename}
+            mv $installpath $DIR/backups/
         fi
 
-	# if you shouldn't ignore, and it's not already linked
-	if [ $filetype != TYPE_IGNORE -a ! -L $installpath ]
-	then
-
-		# move old versions moved to backup dir
-		if [ -e $installpath ]
-		then
-			echo ${filename} moved to ${DIR}/backups/${filename}
-			mv $installpath $DIR/backups/
-		fi
-
-		# create the link
-		echo new link $installpath to ${DIR}/backups/${filename}
-		ln -s $DIR/$filename $installpath
-	fi
+        # create the link
+        echo new link $installpath to ${DIR}/backups/${filename}
+        ln -s $DIR/$filename $installpath
+    fi
 done
 
 # update the submodules

@@ -35,6 +35,16 @@
 ;; Extra: C-x r l <RET> will show bookmarks, which are created for each user's last action
 ;; when joining a workspace.
 
+;; Indent dat buffer
+(defun iwb ()
+  "indent whole buffer"
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max) nil)
+  (untabify (point-min) (point-max)))
+
+
+;; PACKAGES
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
