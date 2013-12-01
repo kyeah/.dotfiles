@@ -18,4 +18,4 @@ ColorPalette13=#838394949696
 ColorPalette14=#6c6c7171c4c4
 ColorPalette15=#9393a1a1a1a1
 ColorPalette16=#fdfdf6f6e3e3
-Term=xterm-256color
+TERM=xterm-256color
