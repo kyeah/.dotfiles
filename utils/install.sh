@@ -13,7 +13,7 @@ DIR=~/.dotfiles
 cd $DIR
 for filename in *
 do
-    installpath=~/.$filename
+    installpath=~/.${filename}
     filetype=TYPE_LINK
     specialindex=0
     
@@ -26,7 +26,8 @@ do
             installpath=${specialpath[specialindex]}
             break
         fi
-        specialindex++
+        
+        true $((specialindex++))
     done
     
 	# check if the file should be ignored        
@@ -42,7 +43,7 @@ do
         fi
 
 	# if you shouldn't ignore, and it's not already linked
-	if [ $filetype != TYPE_IGNORE -a -o [ ! -L $installpath ]]
+	if [ $filetype != TYPE_IGNORE -a ! -L $installpath ]
 	then
 
 		# move old versions moved to backup dir
