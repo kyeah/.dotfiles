@@ -15,6 +15,7 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
+alias pwd="pwda"
 alias psa="ps aux"
 alias fgls='jobs'
 alias apt-get='sudo apt-get'
@@ -51,6 +52,17 @@ complete -cf sudo
 PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add Android-Studio, Genymotion to path
+
+pwda () {
+    link=$(\pwd -L)
+    physical=$(\pwd -P)
+    if [ $link == $physical ]; then
+       echo ${link}
+    else
+       echo "Linked:   "${link}
+       echo "Physical: "${physical} 
+    fi
+}
 
 # up - goes up n directory levels
 up(){
@@ -166,6 +178,7 @@ apt-find () {
     echo
 }
 
+export -f pwda
 export -f up
 export -f mkuniq
 export -f mkgibo
