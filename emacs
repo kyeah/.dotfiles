@@ -75,6 +75,19 @@
 ;;(color-theme-twilight)
 (load-theme 'solarized-dark t)
 
+;; Allow copy-paste using linux clipboard in terminal mode
+(defun my-cut-function (text &optional rest)
+  (let ((process-connection-type nil))
+    (let ((proc (start-process "xclip" "*Messages*" "xclip")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+(defun my-paste-function ()
+  (shell-command-to-string "xclip -o"))
+
+(setq interprogram-cut-function 'my-cut-function)
+(setq interprogram-paste-function 'my-paste-function)
+
 ;; List of Package Installs:
 ;; auto-complete
 ;; c-eldoc

@@ -1,0 +1,11 @@
+Host kyeh.me
+HostName cpanel98.fastdnsservers.com
+User a2180
+
+Host pocky
+HostName pocky.cs.utexas.edu
+User kyeh
+
+Host angry-goat
+Hostname angry-goat.cs.utexas.edu
+User kyeh

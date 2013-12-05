@@ -1,23 +1,72 @@
 export PS1='\[\033[0;35m\]\h\[\033[0;33m\] \W\[\033[00m\]: '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
-alias ls='ls --color'
-
+export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
-alias emacs='emacs -nw'  # Emacs terminal mode with dirty 256-color hack
+
+alias ls='ls --color'
+alias la='ls -a --color'
+alias ll='ls -lh --color'
+alias lla='ls -alh --color'
+alias lal='lla'
+
+alias emacs='emacs -nw'
 alias ..='cd ..'
-alias ...='cd ...'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
+alias psa="ps aux"
 alias fgls='jobs'
+alias apt-get='sudo apt-get'
+alias apt-install='apt-get install'
+alias apt-update='apt-get update'
+alias apt-remove='apt-get --purge remove'
+# apt-find is defined as a function below
 
-alias gitlog="log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias apt-installed="dpkg -l | grep"  # Find installed packages relating to query
+alias apt-files="dpkg -L"             # Find files provided by installed package
+alias apt-ownedby="dpkg -S"           # Find the package that owns the given file
+
+alias bd='cd $OLDPWD'
+alias push='pushd'  # Never going to use these ever
+alias pop='popd'    # Use dirs to print stack
+
+shopt -s cmdhist        # Combine multiline commands into one in history
+HISTCONTROL=ignoredups  # Ignore dups, bare ls and builtin cmds
+HISTCONTROL=ignoreboth
+export HISTIGNORE="&:ls:[bf]g:exit"
+
+alias h="history | grep"
+alias f="find . | grep"
+alias dopen='xdg-open'
+
+alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
+alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
+
+# Allow tab completion to propagate through sudo commands
+complete -cf sudo
 
 PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add Android-Studio, Genymotion to path
 
+# up - goes up n directory levels
+up(){
+        local d=""
+        limit=$1
+        for ((i=1 ; i <= limit ; i++))
+        do
+                d=$d/..
+        done
+        d=$(echo $d | sed 's/^\///')
+        if [ -z "$d" ]; then
+                d=..
+        fi
+        cd $d
+}
+ 
 # Make all lines in a file unique
 mkuniq () {
     if [ $# -eq 0 ]; then
@@ -82,8 +131,44 @@ extract () {
    fi
 }
 
+# Mega-fancy package-finder
+apt-find () {
+    tmp_list=/tmp/apt_tmp_list.txt
+    tmp_alist=/tmp/apt_tmp_alist.txt
+    
+    if [ -w ${tmp_list} ]; then
+        rm -f ${tmp_list}
+    fi
+
+    if [ -w ${tmp_alist} ]; then
+        rm -f ${tmp_alist}
+    fi
+    
+    if [ -z ${1} ]; then
+        echo "Give parameter to work with..."
+        return
+    fi
+    
+    for i in `apt-cache search ${1} | awk -F " - " '{ print $1 }'`
+    do 
+        list=("${list[@]}" "${i}")
+    done
+ 
+    dpkg-query -W -f='${Package}\t${Version}\n${Description}\n\n' ${list[@]} >${tmp_list} 2>${tmp_alist}
+    clear
+    echo "############# Installed #################"
+    echo
+    grep -v "No packages" ${tmp_list} | awk -F: '{printf "\033[1;32m"$1"\033[0m: "$2"\n"}'
+    echo
+    echo "############# Available #################"
+    echo
+    cat ${tmp_alist} | sed "s/dpkg-query:\ no\ packages\ found\ matching\ //g" | grep -v "No packages" | awk -F: '{printf "\033[1;31m"$1"\033[0m: "$2"\n"}'
+    echo
+}
+
+export -f up
 export -f mkuniq
 export -f mkgibo
 export -f flac2mp3
 export -f extract
-
+export -f apt-find

@@ -5,8 +5,8 @@ TYPE_LINK=2
 TYPE_SPECIAL=3
 
 ignore=( el utils backups )
-special=( terminalrc )
-specialpath=( ~/.config/Terminal/terminalrc )
+special=( terminalrc sshconfig )
+specialpath=( ~/.config/Terminal/terminalrc ~/.ssh/config )
 
 DIR=~/.dotfiles
 
@@ -50,7 +50,7 @@ do
         if [ -e $installpath ]
         then
             echo ${filename} moved to ${DIR}/backups/${filename}
-            mv $installpath $DIR/backups/
+            mv $installpath $DIR/backups/$filename
         fi
 
         # create the link
