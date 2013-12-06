@@ -53,32 +53,51 @@ PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/Use
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add Android-Studio, Genymotion to path
 
+
+gitdiff () {
+    distance=0
+    if [ $# -gt 0 ]; then
+        distance=$1
+    fi
+    
+    git diff HEAD~$distance
+}
+
+nuke () {
+    if [ $# -gt 0 ]; then
+        for reg in $@
+        do
+            find -name "$reg" -exec rm -f {} +
+        done
+    fi
+}
+
 pwda () {
     link=$(\pwd -L)
     physical=$(\pwd -P)
     if [ $link == $physical ]; then
-       echo ${link}
+        echo ${link}
     else
-       echo "Linked:   "${link}
-       echo "Physical: "${physical} 
+        echo "Linked:   "${link}
+        echo "Physical: "${physical}
     fi
 }
 
 # up - goes up n directory levels
 up(){
-        local d=""
-        limit=$1
-        for ((i=1 ; i <= limit ; i++))
-        do
-                d=$d/..
-        done
-        d=$(echo $d | sed 's/^\///')
-        if [ -z "$d" ]; then
-                d=..
-        fi
-        cd $d
+    local d=""
+    limit=$1
+    for ((i=1 ; i <= limit ; i++))
+    do
+        d=$d/..
+    done
+    d=$(echo $d | sed 's/^\///')
+    if [ -z "$d" ]; then
+        d=..
+    fi
+    cd $d
 }
- 
+
 # Make all lines in a file unique
 mkuniq () {
     if [ $# -eq 0 ]; then
@@ -113,7 +132,7 @@ mkgibo () {
 # Self-explanatory, dude
 flac2mp3 () {
     find "$1" -type f -name "*.flac" -print0 | while read -d $'\0' song
-    
+
     do
         output=${song%.flac}.mp3
         avconv -i "$song" -metadata album="$1" -b 192k "$output"
@@ -122,32 +141,32 @@ flac2mp3 () {
 
 # All-in-one extractor
 extract () {
-   if [ -f $1 ] ; then
-       case $1 in
-           *.tar.bz2)tar xvjf $1 && cd $(basename "$1" .tar.bz2) ;;
-           *.tar.gz)tar xvzf $1 && cd $(basename "$1" .tar.gz) ;;
-           *.tar.xz)tar Jxvf $1 && cd $(basename "$1" .tar.xz) ;;
-           *.bz2)bunzip2 $1 && cd $(basename "$1" /bz2) ;;
-           *.rar)unrar x $1 && cd $(basename "$1" .rar) ;;
-           *.gz)gunzip $1 && cd $(basename "$1" .gz) ;;
-           *.tar)tar xvf $1 && cd $(basename "$1" .tar) ;;
-           *.tbz2)tar xvjf $1 && cd $(basename "$1" .tbz2) ;;
-           *.tgz)tar xvzf $1 && cd $(basename "$1" .tgz) ;;
-           *.zip)unzip $1 && cd $(basename "$1" .zip) ;;
-           *.Z)uncompress $1 && cd $(basename "$1" .Z) ;;
-           *.7z)7z x $1 && cd $(basename "$1" .7z) ;;
-           *)echo "don't know how to extract '$1'..." ;;
-       esac
-   else
-       echo "'$1' is not a valid file!"
-   fi
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)tar xvjf $1 && cd $(basename "$1" .tar.bz2) ;;
+            *.tar.gz)tar xvzf $1 && cd $(basename "$1" .tar.gz) ;;
+            *.tar.xz)tar Jxvf $1 && cd $(basename "$1" .tar.xz) ;;
+            *.bz2)bunzip2 $1 && cd $(basename "$1" /bz2) ;;
+            *.rar)unrar x $1 && cd $(basename "$1" .rar) ;;
+            *.gz)gunzip $1 && cd $(basename "$1" .gz) ;;
+            *.tar)tar xvf $1 && cd $(basename "$1" .tar) ;;
+            *.tbz2)tar xvjf $1 && cd $(basename "$1" .tbz2) ;;
+            *.tgz)tar xvzf $1 && cd $(basename "$1" .tgz) ;;
+            *.zip)unzip $1 && cd $(basename "$1" .zip) ;;
+            *.Z)uncompress $1 && cd $(basename "$1" .Z) ;;
+            *.7z)7z x $1 && cd $(basename "$1" .7z) ;;
+            *)echo "don't know how to extract '$1'..." ;;
+        esac
+    else
+        echo "'$1' is not a valid file!"
+    fi
 }
 
 # Mega-fancy package-finder
 apt-find () {
     tmp_list=/tmp/apt_tmp_list.txt
     tmp_alist=/tmp/apt_tmp_alist.txt
-    
+
     if [ -w ${tmp_list} ]; then
         rm -f ${tmp_list}
     fi
@@ -155,22 +174,22 @@ apt-find () {
     if [ -w ${tmp_alist} ]; then
         rm -f ${tmp_alist}
     fi
-    
+
     if [ -z ${1} ]; then
         echo "Give parameter to work with..."
         return
     fi
-    
+
     for i in `apt-cache search ${1} | awk -F " - " '{ print $1 }'`
-    do 
+    do
         list=("${list[@]}" "${i}")
     done
- 
+
     dpkg-query -W -f='${Package}\t${Version}\n${Description}\n\n' ${list[@]} >${tmp_list} 2>${tmp_alist}
     clear
     echo "############# Installed #################"
     echo
-    grep -v "No packages" ${tmp_list} | awk -F: '{printf "\033[1;32m"$1"\033[0m: "$2"\n"}'
+    grep -v "^ " ${tmp_list} | awk -F: '{printf "\033[1;32m"$1"\033[0m: "$2"\n"}'
     echo
     echo "############# Available #################"
     echo
@@ -178,6 +197,7 @@ apt-find () {
     echo
 }
 
+export -f nuke
 export -f pwda
 export -f up
 export -f mkuniq
