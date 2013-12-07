@@ -41,6 +41,7 @@ export HISTIGNORE="&:ls:[bf]g:exit"
 alias h="history | grep"
 alias f="find . | grep"
 alias dopen='xdg-open'
+alias odoc='dopen'
 
 alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
@@ -55,9 +56,13 @@ PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/Use
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add Android-Studio, Genymotion to path
 
-trimanim () {
-    # Trim animations. If each frame occupies a different-sized portion, this will ruin offsets.
 
+#################
+### FUNCTIONS ###
+#################
+
+# Trim animations. If each frame occupies a different-sized portion, this will ruin offsets.
+trimanim () {
     bgcolor="null"
     if [[ -z "$3" ]]; then
         bgcolor=${3}
@@ -102,6 +107,7 @@ nuke () {
     fi
 }
 
+# pwd enhanced function to show linked vs. physical dir differences.
 pwda () {
     link=$(\pwd -L)
     physical=$(\pwd -P)
@@ -172,17 +178,14 @@ flac2mp3 () {
 convert-anim-skip () {
     # This script will take an animated GIF and delete every other frame
     # Accepts three parameters: skip step, input file and output file
-    # Usage: ./<scriptfilename> <skipStep> input.gif output.gif
+    # Usage: convert-anim-skip <skipStep> input.gif output.gif
+    # To check current delay, run identify -verbose output.gif | grep Delay
 
     if [ $# -eq 3 ]; then
-        
-        # Make a copy of the file
         cp $2 $3
-
-        # Get the number of frames
         numframes=`convert $3 -format "%[scenes]" info: | tail -n 1`
 
-        # Delete
+        # delete frames
         gifsicle "$2" --unoptimize $(seq -f "#%g" 0 $1 $numframes) -O2 -o "$3"
     fi
 }
@@ -224,7 +227,7 @@ apt-find () {
     fi
 
     if [ -z ${1} ]; then
-        echo "Give parameter to work with..."
+        echo "Please provide a package to search for."
         return
     fi
 
