@@ -18,6 +18,7 @@ alias ....='cd ../../..'
 alias pwd="pwda"
 alias psa="ps aux"
 alias fgls='jobs'
+
 alias apt-get='sudo apt-get'
 alias apt-install='apt-get install'
 alias apt-update='apt-get update'
@@ -44,6 +45,7 @@ alias dopen='xdg-open'
 alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
+alias gitinfo="git remote show origin"
 alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
 
 # Allow tab completion to propagate through sudo commands
@@ -53,13 +55,41 @@ PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/Use
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add Android-Studio, Genymotion to path
 
+trimanim () {
+    # Trim animations. If each frame occupies a different-sized portion, this will ruin offsets.
+
+    bgcolor="null"
+    if [[ -z "$3" ]]; then
+        bgcolor=${3}
+    fi
+
+    if [ $# -gt 1 ]; then
+        convert $1 -trim +repage -layers TrimBounds -set dispose background -coalesce -scene 1 $2
+        if [ bgcolor != "null" ]; then
+            convert $2 -alpha off -background ${bgcolor} $2
+        fi
+    fi
+}
+
+opendir () {
+    if [ $# -gt 0 ]; then
+        for dir in $@
+        do
+            if [ -d "$dir" ]; then
+                nautilus $dir >/dev/null 2>/dev/null &
+            fi
+        done
+    else
+        nautilus "$PWD" & > /dev/null
+    fi
+}
 
 gitdiff () {
     distance=0
     if [ $# -gt 0 ]; then
         distance=$1
     fi
-    
+
     git diff HEAD~$distance
 }
 
@@ -139,6 +169,24 @@ flac2mp3 () {
     done
 }
 
+convert-anim-skip () {
+    # This script will take an animated GIF and delete every other frame
+    # Accepts three parameters: skip step, input file and output file
+    # Usage: ./<scriptfilename> <skipStep> input.gif output.gif
+
+    if [ $# -eq 3 ]; then
+        
+        # Make a copy of the file
+        cp $2 $3
+
+        # Get the number of frames
+        numframes=`convert $3 -format "%[scenes]" info: | tail -n 1`
+
+        # Delete
+        gifsicle "$2" --unoptimize $(seq -f "#%g" 0 $1 $numframes) -O2 -o "$3"
+    fi
+}
+
 # All-in-one extractor
 extract () {
     if [ -f $1 ] ; then
@@ -197,6 +245,8 @@ apt-find () {
     echo
 }
 
+export -f opendir
+export -f gitdiff
 export -f nuke
 export -f pwda
 export -f up
@@ -205,3 +255,4 @@ export -f mkgibo
 export -f flac2mp3
 export -f extract
 export -f apt-find
+export -f convert-anim-skip
