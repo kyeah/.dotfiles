@@ -1,3 +1,17 @@
+shopt -s nocaseglob  # Case-insensitive globbing (pathname expansion)
+shopt -s cdspell     # Auto-correct when using cd
+
+# Enable some Bash 4 features when possible:
+# * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
+# * Recursive globbing, e.g. `echo **/*.txt`
+for option in autocd globstar; do
+        shopt -s "$option" 2> /dev/null
+done
+
+# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
+[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
+
+# Better color schemes
 export PS1='\[\033[0;35m\]\h\[\033[0;33m\] \W\[\033[00m\]: '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
@@ -38,7 +52,7 @@ HISTCONTROL=ignoredups  # Ignore dups, bare ls and builtin cmds
 HISTCONTROL=ignoreboth
 export HISTIGNORE="&:ls:[bf]g:exit"
 
-alias h="history | grep"
+alias h="history | grep"  # Run desired command with !<history num>
 alias f="find . | grep"
 alias dopen='xdg-open'
 alias odoc='dopen'
