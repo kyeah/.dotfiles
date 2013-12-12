@@ -32,6 +32,7 @@ alias ....='cd ../../..'
 alias pwd="pwda"
 alias psa="ps aux"
 alias fgls='jobs'
+alias fgka='for x in `jobs -p`; do kill -9 $x; done' # KILL ALL JOBS!!!!
 
 alias apt-get='sudo apt-get'
 alias apt-install='apt-get install'
@@ -90,6 +91,15 @@ trimanim () {
     fi
 }
 
+# kill job by job #
+fgkill () {
+   jobfindcmd="sed -n -e "$1"p"
+   echo $jobfindcmd
+   job=`jobs -p | ${jobfindcmd}`
+   kill -9 $job
+}
+
+# open nautilus in given dir (default working dir)
 opendir () {
     if [ $# -gt 0 ]; then
         for dir in $@
@@ -103,6 +113,7 @@ opendir () {
     fi
 }
 
+# show diff from nth last HEAD
 gitdiff () {
     distance=0
     if [ $# -gt 0 ]; then
@@ -112,6 +123,7 @@ gitdiff () {
     git diff HEAD~$distance
 }
 
+# find and delete all matching regex
 nuke () {
     if [ $# -gt 0 ]; then
         for reg in $@
@@ -262,6 +274,7 @@ apt-find () {
     echo
 }
 
+export -f fgkill
 export -f opendir
 export -f gitdiff
 export -f nuke
