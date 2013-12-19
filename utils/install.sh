@@ -6,7 +6,7 @@ TYPE_SPECIAL=3
 
 ignore=( el utils backups )
 special=( terminalrc sshconfig )
-specialpath=( ~/.config/Terminal/terminalrc ~/.ssh/config )
+specialpath=( ~/.config/xfce4/terminal/terminalrc ~/.ssh/config )
 
 DIR=~/.dotfiles
 

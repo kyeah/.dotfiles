@@ -44,6 +44,16 @@ alias apt-installed="dpkg -l | grep"  # Find installed packages relating to quer
 alias apt-files="dpkg -L"             # Find files provided by installed package
 alias apt-ownedby="dpkg -S"           # Find the package that owns the given file
 
+alias pacs="sudo pacman -S"       # Install
+alias pacsy="sudo pacman -Sy"     # Install with fresh database
+alias pacsyu="sudo pacman -Syu"   # Update / Upgrade
+alias pacr="sudo pacman -R"       # Remove
+
+alias pac-get="pacsy"
+alias pac-update="pacsyu"
+alias pac-remove="pacr"
+alias pac-find="sudo pacman -Ss"  # Search for package
+
 alias bd='cd $OLDPWD'
 alias push='pushd'  # Never going to use these ever
 alias pop='popd'    # Use dirs to print stack
