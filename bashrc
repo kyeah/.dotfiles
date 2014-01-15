@@ -34,6 +34,10 @@ alias psa="ps aux"
 alias fgls='jobs'
 alias fgka='for x in `jobs -p`; do kill -9 $x; done' # KILL ALL JOBS!!!!
 
+#######################
+### Deb-based Linux ###
+#######################
+
 alias apt-get='sudo apt-get'
 alias apt-install='apt-get install'
 alias apt-update='apt-get update'
@@ -44,15 +48,26 @@ alias apt-installed="dpkg -l | grep"  # Find installed packages relating to quer
 alias apt-files="dpkg -L"             # Find files provided by installed package
 alias apt-ownedby="dpkg -S"           # Find the package that owns the given file
 
+
+########################
+### Arch-based Linux ###
+########################
+
 alias pacs="sudo pacman -S"       # Install
 alias pacsy="sudo pacman -Sy"     # Install with fresh database
 alias pacsyu="sudo pacman -Syu"   # Update / Upgrade
-alias pacr="sudo pacman -R"       # Remove
+alias pacrm="sudo pacman -R"      # Remove
+alias pacf="sudo pacman -Ss"      # Search for package
 
 alias pac-get="pacsy"
 alias pac-update="pacsyu"
-alias pac-remove="pacr"
-alias pac-find="sudo pacman -Ss"  # Search for package
+alias pac-remove="pacrm"
+alias pac-find="pacf"  
+
+alias ya="yaourt -Sy"   # Install AUR package with fresh database
+alias yas="yaourt -Ss"  # Search AUR packages
+
+############################
 
 alias bd='cd $OLDPWD'
 alias push='pushd'  # Never going to use these ever
@@ -77,8 +92,9 @@ alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(
 # Allow tab completion to propagate through sudo commands
 complete -cf sudo
 
-PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
+PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
 # Add RVM (Ruby Virt Machine) to PATH for scripting
+# Add gibo path
 # Add Android-Studio, Genymotion to path
 
 
@@ -115,11 +131,13 @@ opendir () {
         for dir in $@
         do
             if [ -d "$dir" ]; then
-                nautilus $dir >/dev/null 2>/dev/null &
+                thunar $dir >/dev/null 2>/dev/null &     
+                # nautilus $dir >/dev/null 2>/dev/null &  # GNOME default file manager
             fi
         done
     else
-        nautilus "$PWD" & > /dev/null
+        thunar "$PWD" & > /dev/null
+        # nautilus "$PWD" & > /dev/null
     fi
 }
 
