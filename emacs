@@ -40,7 +40,6 @@
 ;; when joining a workspace.
 
 (when (> emacs-major-version 23)
-    (
      (defun my-cut-function (text &optional rest)
        "Allow copy-paste using linux clipboard in terminal mode"
        (let ((process-connection-type nil))
@@ -58,7 +57,6 @@
      (global-set-key (kbd "C-x u") 'undo-tree-undo)
      (global-set-key (kbd "C-b") 'undo-tree-undo)
      (global-set-key (kbd "C-n") 'undo-tree-redo)
-    )
 )
 
 (defun iwb ()
@@ -103,8 +101,7 @@
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.dotfiles/el")
 
-(if (> emacs-major-version 23)
-    (
+(when (> emacs-major-version 23)
      (require 'package)
      (add-to-list 'package-archives
                   '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -127,6 +124,8 @@
      (setq c-eldoc-includes "`pkg-config gtk+-2.0 --cflags` -I./ -I../ ")
      (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 
+     (add-hook 'haskell-mode-hook 'haskell-indent-mode)
+
      ;; Jade
      (require 'sws-mode)
      (require 'jade-mode)
@@ -143,6 +142,7 @@
      (load-theme 'solarized-dark t)     
      )
 
+(when (<= emacs-major-version 23)
   ;; If version <= 23
   (add-to-list 'load-path "~/.dotfiles/el/color-theme-6.6.0")
   (require 'color-theme)

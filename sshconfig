@@ -9,3 +9,7 @@ User kyeh
 Host angry-goat
 Hostname angry-goat.cs.utexas.edu
 User kyeh
+
+Host codebench
+Hostname 107.170.12.71
+User root

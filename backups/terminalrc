@@ -35,4 +35,6 @@ MiscTabCloseButtons=TRUE
 MiscTabCloseMiddleClick=TRUE
 MiscTabPosition=GTK_POS_TOP
 MiscHighlightUrls=TRUE
+BackgroundDarkness=0.950000
+ScrollingBar=TERMINAL_SCROLLBAR_NONE
 

@@ -17,6 +17,8 @@ export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
+export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib
+export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 
 alias ls='ls --color'
 alias la='ls -a --color'
