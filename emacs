@@ -95,6 +95,7 @@
 ;; floobits
 ;; color-theme
 ;; undo-tree
+;; haskell-mode
 
 ;; !! We rely on cmdline xclip, so make sure you install that manually.
 
@@ -113,7 +114,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree))
+      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode))
 
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -124,6 +125,7 @@
      (setq c-eldoc-includes "`pkg-config gtk+-2.0 --cflags` -I./ -I../ ")
      (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
 
+     ;; Haskell-mode
      (add-hook 'haskell-mode-hook 'haskell-indent-mode)
 
      ;; Jade
