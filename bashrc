@@ -1,5 +1,8 @@
 shopt -s nocaseglob  # Case-insensitive globbing (pathname expansion)
 shopt -s cdspell     # Auto-correct when using cd
+shopt -s dotglob
+shopt -s expand_aliases
+shopt -s extglob
 
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
@@ -19,11 +22,15 @@ export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
 export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib
 export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
+export PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
+# Add RVM (Ruby Virt Machine) to PATH for scripting
+# Add gibo path
+# Add Android-Studio, Genymotion to path
 
-alias ls='ls --color'
-alias la='ls -a --color'
-alias ll='ls -lh --color'
-alias lla='ls -alh --color'
+alias ls='ls --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
+alias la='ls -a --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
+alias ll='ls -lh --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
+alias lla='ls -alh --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
 alias lal='lla'
 
 alias emacs='emacs -nw'
@@ -76,8 +83,11 @@ alias push='pushd'  # Never going to use these ever
 alias pop='popd'    # Use dirs to print stack
 
 shopt -s cmdhist        # Combine multiline commands into one in history
-HISTCONTROL=ignoredups  # Ignore dups, bare ls and builtin cmds
-HISTCONTROL=ignoreboth
+shopt -s histappend
+shopt -s hostcomplete
+export HISTSIZE=10000
+export HISTCONTROL=ignoredups  # Ignore dups, bare ls and builtin cmds
+export HISTCONTROL=ignoreboth
 export HISTIGNORE="&:ls:[bf]g:exit"
 
 alias h="history | grep"  # Run desired command with !<history num>
@@ -93,12 +103,6 @@ alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(
 
 # Allow tab completion to propagate through sudo commands
 complete -cf sudo
-
-PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
-# Add RVM (Ruby Virt Machine) to PATH for scripting
-# Add gibo path
-# Add Android-Studio, Genymotion to path
-
 
 #################
 ### FUNCTIONS ###
