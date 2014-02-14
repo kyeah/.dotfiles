@@ -78,9 +78,24 @@ alias yas="yaourt -Ss"  # Search AUR packages
 
 ############################
 
+# Directory History
+DIRSTACKSIZE=8
+alias dirs='dirs -v'
+alias dh='dirs -v'
 alias bd='cd $OLDPWD'
-alias push='pushd'  # Never going to use these ever
-alias pop='popd'    # Use dirs to print stack
+alias back='bd'
+alias push='pushd'
+alias pop='popd'
+
+function cd() {
+    if [ $# -eq 0 ]; then
+    DIR="${HOME}"
+  else
+    DIR="$1"
+  fi
+ 
+  builtin pushd "${DIR}" > /dev/null
+}
 
 shopt -s cmdhist        # Combine multiline commands into one in history
 shopt -s histappend
@@ -321,3 +336,4 @@ export -f flac2mp3
 export -f extract
 export -f apt-find
 export -f convert-anim-skip
+export -f cd
