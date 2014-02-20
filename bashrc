@@ -20,7 +20,7 @@ export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
-export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib
+export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
 # Add RVM (Ruby Virt Machine) to PATH for scripting
@@ -42,6 +42,7 @@ alias pwd="pwda"
 alias psa="ps aux"
 alias fgls='jobs'
 alias fgka='for x in `jobs -p`; do kill -9 $x; done' # KILL ALL JOBS!!!!
+alias xcopy='xclip -sel clip < '
 
 #######################
 ### Deb-based Linux ###
