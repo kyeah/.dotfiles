@@ -50,9 +50,11 @@
      (defun my-paste-function ()
        (shell-command-to-string "xclip -o"))
 
-     (setq interprogram-cut-function 'my-cut-function)
-     (setq interprogram-paste-function 'my-paste-function)
-
+     (when (string-equal (getenv "SSHCLIENT") "")
+       (setq interprogram-cut-function 'my-cut-function)
+       (setq interprogram-paste-function 'my-paste-function)
+     )
+     
      (global-set-key (kbd "C-M-z") 'undo-tree-visualize)
      (global-set-key (kbd "C-x u") 'undo-tree-undo)
      (global-set-key (kbd "C-b") 'undo-tree-undo)
