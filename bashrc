@@ -117,6 +117,7 @@ alias gitunstage="git reset HEAD"
 alias gitinfo="git remote show origin"
 alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
 alias git-forcetohead="git fetch --all; git reset --hard origin/master"
+alias git-unchanged="git update-index --assume-unchanged"
 
 # Allow tab completion to propagate through sudo commands
 complete -cf sudo
