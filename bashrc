@@ -1,3 +1,5 @@
+export JAVA_HOME=/home/kyeh/Programs/jdk1.7.0_67
+
 shopt -s nocaseglob  # Case-insensitive globbing (pathname expansion)
 shopt -s cdspell     # Auto-correct when using cd
 shopt -s dotglob
@@ -23,6 +25,7 @@ export editor=emacs
 export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
+export GOPATH=$HOME/gocode
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add gibo path
 # Add Android-Studio, Genymotion to path
@@ -43,6 +46,9 @@ alias psa="ps aux"
 alias fgls='jobs'
 alias fgka='for x in `jobs -p`; do kill -9 $x; done' # KILL ALL JOBS!!!!
 alias xcopy='xclip -sel clip < '
+
+alias df='df -h'      # human-readable filesizes
+alias free='free -m'  # MB filesies
 
 #######################
 ### Deb-based Linux ###
@@ -291,6 +297,13 @@ extract () {
     fi
 }
 
+# Run command detached from terminal
+detach () {
+    if [ $# -gt 0 ]; then
+        $@ </dev/null &>/dev/null &
+    fi
+}
+
 # Mega-fancy package-finder
 apt-find () {
     tmp_list=/tmp/apt_tmp_list.txt
@@ -339,3 +352,7 @@ export -f extract
 export -f apt-find
 export -f convert-anim-skip
 export -f cd
+export -f detach
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

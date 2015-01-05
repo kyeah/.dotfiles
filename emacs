@@ -50,10 +50,8 @@
      (defun my-paste-function ()
        (shell-command-to-string "xclip -o"))
 
-     (when (string-equal (getenv "SSHCLIENT") "")
        (setq interprogram-cut-function 'my-cut-function)
        (setq interprogram-paste-function 'my-paste-function)
-     )
      
      (global-set-key (kbd "C-M-z") 'undo-tree-visualize)
      (global-set-key (kbd "C-x u") 'undo-tree-undo)
@@ -116,7 +114,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode))
+      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode go-mode))
 
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -143,7 +141,12 @@
      (require 'color-theme)
      (color-theme-initialize)
      (add-to-list 'custom-theme-load-path "~/.dotfiles/el/emacs-color-theme-solarized")
-     (load-theme 'solarized-dark t)     
+     (load-theme 'solarized-dark t)
+     
+     ;; Lua
+     (require 'lua-mode)
+     (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+     (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
      )
 
 (when (<= emacs-major-version 23)
