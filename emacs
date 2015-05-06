@@ -23,7 +23,6 @@
 (custom-set-faces)
 (cua-mode t)
 
-
 ;; ===============
 ;; === ALIASES ===
 ;; ===============
@@ -36,6 +35,7 @@
 (defalias 'floo-summon 'floobits-summon)
 (defalias 'floo-follow-toggle 'floobits-follow-mode-toggle)
 (defalias 'floo-clear-hl 'floobits-clear-highlights)
+
 ;; Extra: C-x r l <RET> will show bookmarks, which are created for each user's last action
 ;; when joining a workspace.
 
@@ -58,6 +58,7 @@
      (global-set-key (kbd "C-b") 'undo-tree-undo)
      (global-set-key (kbd "C-n") 'undo-tree-redo)
 )
+
 
 (defun iwb ()
   "indent whole buffer"
@@ -114,7 +115,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode go-mode))
+      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer))
 
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -129,6 +130,7 @@
      (add-hook 'haskell-mode-hook 'haskell-indent-mode)
 
      ;; Jade
+     (require 'scala-mode)
      (require 'sws-mode)
      (require 'jade-mode)
      (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
@@ -147,6 +149,14 @@
      (require 'lua-mode)
      (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
      (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
+     (require 'scala-mode)
+     (require 'rust-mode)
+
+     (require 'project-explorer)
+     (defalias 'nav 'project-explorer-open)
+     (global-set-key (kbd "C-w") 'nav)
+
      )
 
 (when (<= emacs-major-version 23)

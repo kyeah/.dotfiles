@@ -1,4 +1,6 @@
-export JAVA_HOME=/home/kyeh/Programs/jdk1.7.0_67
+export JAVA_HOME=/home/kyeh/Programs/jdk1.8.0_40
+
+alias java='/usr/lib/jvm/jdk1.8.0_40/bin/java'
 
 shopt -s nocaseglob  # Case-insensitive globbing (pathname expansion)
 shopt -s cdspell     # Auto-correct when using cd
@@ -24,8 +26,10 @@ export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
 export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
-export PATH=$PATH:$HOME/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/UserProgs/android-studio/bin:$Home/UserProgs/genymotion
+export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin
 export GOPATH=$HOME/gocode
+export SPARK_HOME=$HOME/Programs/spark-1.2.0-bin-hadoop2.4
+export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
 # Add RVM (Ruby Virt Machine) to PATH for scripting
 # Add gibo path
 # Add Android-Studio, Genymotion to path
