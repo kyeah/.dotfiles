@@ -82,7 +82,7 @@
 (global-set-key (kbd "C-q") 'iwb)   ;; Default binding is quoted-insert
 (global-set-key (kbd "C-f") 'kmacro-start-macro-or-insert-counter)  ;; Default = forward-char
 (global-set-key (kbd "C-g") 'kmacro-end-or-call-macro)  ;; Default = keyboard-quit
-
+(global-set-key (kbd "C-z") 'suspend-emacs)
 ;----------------------------------------
 
 ;; ================

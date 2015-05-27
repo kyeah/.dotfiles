@@ -24,6 +24,7 @@ export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
+export EDITOR=emacs
 export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin
@@ -34,10 +35,10 @@ export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
 # Add gibo path
 # Add Android-Studio, Genymotion to path
 
-alias ls='ls --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
-alias la='ls -a --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
-alias ll='ls -lh --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
-alias lla='ls -alh --group-directories-first --time-style=+"[%m/%d/%Y %H:%M]" --color'
+alias ls='ls -G'
+alias la='ls -a -G'
+alias ll='ls -lh -G'
+alias lla='ls -alh -G'
 alias lal='lla'
 
 alias emacs='emacs -nw'
@@ -262,22 +263,6 @@ flac2mp3 () {
         avconv -i "$song" -metadata album="$1" -b 192k "$output"
     done
 }
-
-convert-anim-skip () {
-    # This script will take an animated GIF and delete every other frame
-    # Accepts three parameters: skip step, input file and output file
-    # Usage: convert-anim-skip <skipStep> input.gif output.gif
-    # To check current delay, run identify -verbose output.gif | grep Delay
-
-    if [ $# -eq 3 ]; then
-        cp $2 $3
-        numframes=`convert $3 -format "%[scenes]" info: | tail -n 1`
-
-        # delete frames
-        gifsicle "$2" --unoptimize $(seq -f "#%g" 0 $1 $numframes) -O2 -o "$3"
-    fi
-}
-
 # All-in-one extractor
 extract () {
     if [ -f $1 ] ; then
@@ -308,40 +293,6 @@ detach () {
     fi
 }
 
-# Mega-fancy package-finder
-apt-find () {
-    tmp_list=/tmp/apt_tmp_list.txt
-    tmp_alist=/tmp/apt_tmp_alist.txt
-
-    if [ -w ${tmp_list} ]; then
-        rm -f ${tmp_list}
-    fi
-
-    if [ -w ${tmp_alist} ]; then
-        rm -f ${tmp_alist}
-    fi
-
-    if [ -z ${1} ]; then
-        echo "Please provide a package to search for."
-        return
-    fi
-
-    for i in `apt-cache search ${1} | awk -F " - " '{ print $1 }'`
-    do
-        list=("${list[@]}" "${i}")
-    done
-
-    dpkg-query -W -f='${Package}\t${Version}\n${Description}\n\n' ${list[@]} >${tmp_list} 2>${tmp_alist}
-    clear
-    echo "############# Installed #################"
-    echo
-    grep -v "^ " ${tmp_list} | awk -F: '{printf "\033[1;32m"$1"\033[0m: "$2"\n"}'
-    echo
-    echo "############# Available #################"
-    echo
-    cat ${tmp_alist} | sed "s/dpkg-query:\ no\ packages\ found\ matching\ //g" | grep -v "No packages" | awk -F: '{printf "\033[1;31m"$1"\033[0m: "$2"\n"}'
-    echo
-}
 
 export -f fgkill
 export -f opendir
@@ -353,8 +304,8 @@ export -f mkuniq
 export -f mkgibo
 export -f flac2mp3
 export -f extract
-export -f apt-find
-export -f convert-anim-skip
+#export -f apt-find
+#export -f convert-anim-skip
 export -f cd
 export -f detach
 
