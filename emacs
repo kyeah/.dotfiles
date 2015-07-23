@@ -43,12 +43,12 @@
      (defun my-cut-function (text &optional rest)
        "Allow copy-paste using linux clipboard in terminal mode"
        (let ((process-connection-type nil))
-         (let ((proc (start-process "xclip" "*Messages*" "xclip")))
+         (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
            (process-send-string proc text)
            (process-send-eof proc))))
 
      (defun my-paste-function ()
-       (shell-command-to-string "xclip -o"))
+       (shell-command-to-string "pbpaste"))
 
        (setq interprogram-cut-function 'my-cut-function)
        (setq interprogram-paste-function 'my-paste-function)
@@ -100,7 +100,7 @@
 
 ;; !! We rely on cmdline xclip, so make sure you install that manually.
 
-(add-to-list 'load-path "~/.emacs.d/")
+;;(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.dotfiles/el")
 
 (when (> emacs-major-version 23)
