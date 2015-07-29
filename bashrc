@@ -55,6 +55,23 @@ alias df='df -h'      # human-readable filesizes
 alias free='free -m'  # MB filesies
 
 #######################
+#                              _________________
+#                     (__)    /                 \
+#                     (uu)   | Keep on moving... |
+#              /-------\/  --'\_________________/
+#             / |     ||
+#            *  ||----||
+#               ^^    ^^
+#######################
+
+alias yay="echo 'yayyyyyyyy :)'"
+alias yayy="echo 'yayyyyyyyyyyyyyy :)'"
+alias yayyy="echo 'yayyyyyyyyyyyyyyyyyyyyyy :)'"
+alias yayyyy="echo 'yayyyyyyyyyyyyyyyyyyyyyyyy!!!!!!!! :)'"
+alias yayyyyy="echo 'yayyyyyyyyyyyyyyyyyyyyyyyyyyyy!!!!!!!!! :)'"
+alias yayyyyyy="echo 'YAYYYYYYYYYYYYYYYYYYYYYYYYYYYY!!!!!!!!!!!! :)'"
+
+#######################
 ### Deb-based Linux ###
 #######################
 
