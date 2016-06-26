@@ -115,7 +115,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer))
+      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode cargo company company-racer flycheck-rust racer project-explorer))
 
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -152,6 +152,28 @@
 
      (require 'scala-mode)
      (require 'rust-mode)
+
+     (unless (getenv "RUST_SRC_PATH")
+      (setenv "RUST_SRC_PATH" (expand-file-name "/home/kyeh/cs/git/rust/src")))
+
+     (require 'company-racer)
+     (add-to-list 'company-backends 'company-racer)
+     (setq racer-cmd "~/.cargo/bin/racer") ;; Rustup binaries PATH
+     (setq racer-rust-src-path "/home/kyeh/cs/git/rust/src") ;; Rust source code PATH
+
+     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+     (add-hook 'rust-mode-hook 'cargo-minor-mode)
+     (add-hook 'rust-mode-hook
+               (lambda ()
+                 (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+     
+
+     (add-hook 'rust-mode-hook #'racer-mode)
+     (add-hook 'racer-mode-hook #'eldoc-mode)
+     (add-hook 'racer-mode-hook #'company-mode)
+     (global-set-key (kbd "TAB") #'company-indent-or-complete-common) ;
+     (setq company-tooltip-align-annotations t)
+     (setq company-idle-delay .2)
 
      (require 'project-explorer)
      (defalias 'nav 'project-explorer-open)
