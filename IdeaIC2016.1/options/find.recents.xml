@@ -1,0 +1,46 @@
+<application>
+  <component name="FindRecents">
+    <findStrings>
+      <find>baseDirectory</find>
+      <find>state_filename</find>
+      <find>STATE_FILE</find>
+      <find>containsStateFiles</find>
+      <find>recentDire</find>
+      <find>MissingKeys</find>
+      <find>listSavesInOrder</find>
+      <find>DELIMITER</find>
+      <find>Immutable</find>
+      <find>toArray</find>
+      <find>testSave</find>
+      <find>new ShardAndOffset</find>
+      <find>read</find>
+      <find>Map</find>
+      <find>WithMultipleDirectories</find>
+      <find>testModelSeq</find>
+      <find>withDelimiter</find>
+      <find>getRespon</find>
+      <find>.project\(\)</find>
+      <find>projectId</find>
+      <find>getMessage()</find>
+      <find>message</find>
+      <find>listSavesReversed</find>
+      <find>listSaves</find>
+      <find>statePrefix</find>
+      <find>mockModelState</find>
+      <find>canonicalDirectory</find>
+      <find>listsaves</find>
+      <find>stateDirectory</find>
+      <find>System</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>__</replace>
+      <replace>$1</replace>
+      <replace>Files.list</replace>
+      <replace>Mockito.any()</replace>
+      <replace>createTempDir()</replace>
+      <replace>Files.createTempDirectory(&quot;.&quot;)</replace>
+      <replace>serializer</replace>
+      <replace>ShardAndOffset.create</replace>
+    </replaceStrings>
+  </component>
+</application>

@@ -1,0 +1,105 @@
+<application>
+  <component name="RecentProjectsManager">
+    <option name="recentPaths">
+      <list>
+        <option value="$USER_HOME$/code/platform-java/ksr-dropwizard" />
+        <option value="$USER_HOME$/code/2r/recommendations" />
+        <option value="$USER_HOME$/code/Kinesisj" />
+        <option value="$USER_HOME$/code/recommendations" />
+        <option value="$USER_HOME$/code/platform-java/prelude" />
+        <option value="$USER_HOME$/code/helloWorld" />
+        <option value="$USER_HOME$/IdeaProjects/DropWizExample" />
+      </list>
+    </option>
+    <option name="openPaths">
+      <list>
+        <option value="$USER_HOME$/code/Kinesisj" />
+        <option value="$USER_HOME$/code/2r/recommendations" />
+        <option value="$USER_HOME$/code/platform-java/ksr-dropwizard" />
+      </list>
+    </option>
+    <option name="lastPath" value="$USER_HOME$/code/platform-java/ksr-dropwizard" />
+    <option name="additionalInfo">
+      <map>
+        <entry key="$USER_HOME$/IdeaProjects/DropWizExample">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1464814817805" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/2r/recommendations">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1469630157870" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/Kinesisj">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1469630148390" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/helloWorld">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1464897042050" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/platform-java/ksr-dropwizard">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1469630162451" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/platform-java/prelude">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1464897044427" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/code/recommendations">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-145.972" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1468355002891" />
+              <option name="buildTimestamp" value="1463198400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="lastProjectLocation" value="$USER_HOME$/code/2r" />
+  </component>
+</application>

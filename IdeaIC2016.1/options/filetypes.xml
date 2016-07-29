@@ -1,0 +1,8 @@
+<application>
+  <component name="FileTypeManager" version="17">
+    <extensionMap>
+      <mapping pattern="ksr_json_type_ignores_private" type="PLAIN_TEXT" />
+      <mapping ext="model" type="PLAIN_TEXT" />
+    </extensionMap>
+  </component>
+</application>

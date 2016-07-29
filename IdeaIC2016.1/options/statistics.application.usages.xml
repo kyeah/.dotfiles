@@ -1,0 +1,72 @@
+<application>
+  <component name="StatisticsApplicationUsages">
+    <group name="libraries">
+      <project id="Kinesisj" values="groovy" collectionTime="1469809804331" />
+    </group>
+    <group name="Git">
+      <project id="recommendations" values="config.update.type.BRANCH_DEFAULT,data.local.branches.count.15+,config.warn.about.crlf.enabled,config.warn.about.detached.enabled,data.remote.branches.count.30+,config.cherry-pick.autocommit.disabled,config.ssh.enabled,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.save.policy.STASH,config.push.update.all.roots.enabled,config.push.autoupdate.disabled,data.remotes.in.project.1" collectionTime="1469809804587" />
+      <project id="ksr-dropwizard-parent" values="config.update.type.BRANCH_DEFAULT,config.push.update.all.roots.enabled,config.cherry-pick.autocommit.disabled,config.save.policy.STASH,config.repo.sync.NOT_DECIDED,config.push.autoupdate.disabled,config.warn.about.crlf.enabled,config.ssh.enabled,config.warn.about.detached.enabled,config.force.push.enabled" collectionTime="1469809804687" />
+      <project id="Kinesisj" values="config.ssh.enabled,data.remotes.in.project.2+,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled,config.update.type.BRANCH_DEFAULT,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.push.autoupdate.disabled,config.save.policy.STASH,data.remote.branches.count.2+,data.local.branches.count.2+,config.push.update.all.roots.enabled,config.warn.about.crlf.enabled" collectionTime="1469809804341" />
+      <project id="prelude" values="config.save.policy.STASH,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.push.autoupdate.disabled,config.warn.about.crlf.enabled,config.ssh.enabled,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled,config.push.update.all.roots.enabled,config.update.type.BRANCH_DEFAULT" collectionTime="1466451858977" />
+      <project id="DropWizExample" values="config.save.policy.STASH,config.cherry-pick.autocommit.disabled,config.push.autoupdate.disabled,config.warn.about.detached.enabled,config.repo.sync.NOT_DECIDED,config.push.update.all.roots.enabled,config.ssh.enabled,config.warn.about.crlf.enabled,config.force.push.enabled,config.update.type.BRANCH_DEFAULT" collectionTime="1464893844600" />
+      <project id="helloWorld-parent" values="data.remotes.in.project.0,data.local.branches.count.1,config.update.type.BRANCH_DEFAULT,config.save.policy.STASH,data.remote.branches.count.0,config.push.autoupdate.disabled,config.push.update.all.roots.enabled,config.warn.about.crlf.enabled,config.repo.sync.NOT_DECIDED,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled,config.ssh.enabled,config.force.push.enabled" collectionTime="1466451844715" />
+    </group>
+    <group name="vcs">
+      <project id="helloWorld-parent" values="Git" collectionTime="1466451843877" />
+      <project id="recommendations" values="Git" collectionTime="1469809804513" />
+      <project id="Kinesisj" values="Git" collectionTime="1469809804222" />
+    </group>
+    <group name="run-configuration-type-temp">
+      <project id="helloWorld-parent" values="Application" collectionTime="1466451843877" />
+      <project id="recommendations" values="JUnit" collectionTime="1469809804513" />
+    </group>
+    <group name="language-level">
+      <project id="recommendations" values="JDK_1_8" collectionTime="1469809804586" />
+      <project id="ksr-dropwizard-parent" values="JDK_1_8" collectionTime="1469809804687" />
+      <project id="Kinesisj" values="JDK_1_8" collectionTime="1469809804337" />
+      <project id="prelude" values="JDK_1_8" collectionTime="1466451858976" />
+      <project id="DropWizExample" values="JDK_1_8,JDK_1_5" collectionTime="1464893844600" />
+      <project id="helloWorld-parent" values="JDK_1_8" collectionTime="1466451844715" />
+    </group>
+    <group name="file-type">
+      <project id="recommendations" values="PLAIN_TEXT,YAML,XML,SQL,Properties,IDEA_MODULE,Markdown,JAVA,ARCHIVE" collectionTime="1469809804575" />
+      <project id="ksr-dropwizard-parent" values="PLAIN_TEXT,XML,IDEA_MODULE,YAML,Markdown,JAVA,UNKNOWN" collectionTime="1469809804683" />
+      <project id="Kinesisj" values="JAVA,IDEA_MODULE,ARCHIVE,PLAIN_TEXT,XML,YAML,Markdown" collectionTime="1469809804312" />
+      <project id="prelude" values="IDEA_MODULE,XML,JAVA,PLAIN_TEXT" collectionTime="1466451858976" />
+      <project id="DropWizExample" values="XML,IDEA_MODULE" collectionTime="1464893844600" />
+      <project id="helloWorld-parent" values="JAVA,IDEA_MODULE,XML,PLAIN_TEXT,ARCHIVE" collectionTime="1466451844714" />
+    </group>
+    <group name="module type">
+      <project id="recommendations" values="JAVA_MODULE" collectionTime="1469809804513" />
+      <project id="ksr-dropwizard-parent" values="JAVA_MODULE" collectionTime="1469809804588" />
+      <project id="Kinesisj" values="JAVA_MODULE" collectionTime="1469809804223" />
+      <project id="prelude" values="JAVA_MODULE" collectionTime="1466451858829" />
+      <project id="DropWizExample" values="JAVA_MODULE" collectionTime="1464893844572" />
+      <project id="helloWorld-parent" values="JAVA_MODULE" collectionTime="1466451843877" />
+    </group>
+  </component>
+  <component name="UsageTrigger">
+    <counts>
+      <entry feature="CreateFile.CreateFileAction" count="6" />
+      <entry feature="execute.Application.Run" count="5" />
+      <entry feature="execute.JUnit.Debug" count="18" />
+      <entry feature="execute.JUnit.Run" count="117" />
+      <entry feature="execute.MavenRunConfiguration.Run" count="1" />
+      <entry feature="ide.help.reference.dialogs.new.project.import.maven.page3" count="1" />
+      <entry feature="ide.settings.Auto_Import" count="1" />
+      <entry feature="ide.settings.Colors_&amp;_Fonts" count="2" />
+      <entry feature="ide.settings.Edit_File_Template" count="1" />
+      <entry feature="ide.settings.Font" count="11" />
+      <entry feature="ide.settings.Inspections" count="2" />
+      <entry feature="ide.settings.Intentions" count="1" />
+      <entry feature="ide.settings.Java" count="19" />
+      <entry feature="ide.settings.Java_Compiler" count="1" />
+      <entry feature="ide.settings.Maven" count="1" />
+      <entry feature="ide.settings.Plugins" count="2" />
+      <entry feature="ide.settings.Project_Structure" count="2" />
+      <entry feature="ide.settings.Version_Control" count="1" />
+      <entry feature="ideaapp.started" count="8" />
+      <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
+    </counts>
+  </component>
+</application>
