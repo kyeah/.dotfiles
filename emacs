@@ -115,7 +115,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode cargo company company-racer flycheck-rust racer project-explorer))
+      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode cargo company company-racer flycheck-rust racer project-explorer find-file-in-repository ido-ubiquitous smex ido-vertical-mode))
 
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -179,6 +179,32 @@
      (defalias 'nav 'project-explorer-open)
      (global-set-key (kbd "C-w") 'nav)
 
+     (require 'find-file-in-repository)
+     (global-set-key (kbd "C-x f") 'find-file-in-repository)
+
+     (ido-mode 1)
+     (ido-everywhere 1)
+     (require 'ido-ubiquitous)
+     (ido-ubiquitous-mode 1)
+     (require 'ido-vertical-mode)
+     (setq ido-use-faces t)
+     (set-face-attribute 'ido-vertical-first-match-face nil
+                         :background "#e5b7c0")
+     (set-face-attribute 'ido-vertical-only-match-face nil
+                         :background "#e52b50"
+                         :foreground "white")
+     (set-face-attribute 'ido-vertical-match-face nil
+                         :foreground "#b00000")
+     (ido-vertical-mode 1)
+     (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
+     (require 'smex)
+     (smex-initialize)
+
+     (global-set-key (kbd "M-x") 'smex)
+     (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+     ;; This is your old M-x.
+     (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
      )
 
 (when (<= emacs-major-version 23)
