@@ -46,6 +46,8 @@ alias emacs='/usr/local/Cellar/emacs/24.5/bin/emacs-24.5 -nw'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
 alias pwd="pwda"
 alias psa="ps aux"
@@ -95,6 +97,7 @@ alias yas="yaourt -Ss"  # Search AUR packages
 DIRSTACKSIZE=8
 alias dirs='dirs -v'
 alias dh='dirs -v'
+alias d="dh"
 alias bd='cd $OLDPWD'
 alias back='bd'
 alias push='pushd'
@@ -310,6 +313,10 @@ detach () {
     fi
 }
 
+function p () { cd "$HOME/code/$@"; }
+
+# mkdir // cd
+function mcd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
 export -f fgkill
 export -f opendir
