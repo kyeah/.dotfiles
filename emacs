@@ -23,6 +23,35 @@
 (custom-set-faces)
 (cua-mode t)
 
+;; Makes *scratch* empty.
+(setq initial-scratch-message "")
+
+;; Removes *scratch* from buffer after the mode has been set.
+(defun remove-scratch-buffer ()
+  (if (get-buffer "*scratch*")
+      (kill-buffer "*scratch*")))
+(add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
+
+;; Removes *messages* from the buffer.
+(setq-default message-log-max nil)
+(kill-buffer "*Messages*")
+
+;; Removes *Completions* from buffer after you've opened a file.
+(add-hook 'minibuffer-exit-hook
+          '(lambda ()
+             (let ((buffer "*Completions*"))
+               (and (get-buffer buffer)
+                    (kill-buffer buffer)))))
+
+;; Don't show *Buffer list* when opening multiple files at the same time.
+(setq inhibit-startup-buffer-menu t)
+
+;; Show only one active window when opening multiple files at the same time.
+(add-hook 'window-setup-hook 'delete-other-windows)
+
+;; No more typing the whole yes or no. Just y or n will do.
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;; ===============
 ;; === ALIASES ===
 ;; ===============
@@ -106,6 +135,9 @@
 (when (> emacs-major-version 23)
      (require 'package)
      (add-to-list 'package-archives
+                  '("marmalade" .
+                          "http://marmalade-repo.org/packages/") t)
+     (add-to-list 'package-archives
                   '("melpa" . "http://melpa.milkbox.net/packages/") t)
      (package-initialize)
 
@@ -117,6 +149,13 @@
                 (package-install package))))
       '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer find-file-in-repository ido-ubiquitous smex ido-vertical-mode))
 
+     (setq ruby-insert-encoding-magic-comment nil)
+     
+     ;; tidalcycles
+     (setq load-path (cons "~/tidal/" load-path))
+     (require 'tidal)
+     (setq tidal-interpreter "/usr/local/bin/ghci")
+     
      ;; Auto-Complete
      (require 'auto-complete-config)
      (add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
@@ -196,3 +235,5 @@
   (load-file "~/.dotfiles/el/haskell-mode-2.8.0/haskell-site-file.el")
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
   )
+
+(require 'haskell-mode)

@@ -1,3 +1,15 @@
+Host *
+  ForwardAgent yes
+
+Host *.aws.ksr.io
+  User ksr
+    ProxyCommand ssh ksr@ssh.ksr.io netcat -w 300 %h %p
+      StrictHostKeyChecking no
+
+Host airlock.ksr.io
+  User ksr
+  ForwardAgent yes
+
 Host kyeh.me
 HostName cpanel98.fastdnsservers.com
 User a2180

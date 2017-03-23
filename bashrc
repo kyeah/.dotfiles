@@ -311,3 +311,8 @@ export -f detach
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+complete -C aws_completer aws
+export AWS_REGION=us-east-1
+
+if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script

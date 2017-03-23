@@ -1,7 +1,7 @@
 export JAVA_HOME=/home/kyeh/Programs/jdk1.8.0_40
 export RUST_TEST_THREADS=1
 
-alias java='/usr/lib/jvm/jdk1.8.0_40/bin/java'
+#alias java='/usr/lib/jvm/jdk1.8.0_40/bin/java'
 
 shopt -s nocaseglob  # Case-insensitive globbing (pathname expansion)
 shopt -s cdspell     # Auto-correct when using cd
@@ -26,9 +26,9 @@ export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
 export editor=emacs
 export EDITOR=emacs
-export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
-export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
-export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin
+# export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
+# export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
+export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin
 export GOPATH=$HOME/gocode
 export SPARK_HOME=$HOME/Programs/spark-1.2.0-bin-hadoop2.4
 export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
@@ -129,8 +129,10 @@ alias odoc='dopen'
 alias brb="bundle exec rails c"
 alias best="bundle exec rake test"
 alias gs="git status"
+alias gg="git grep"
 alias gca="git commit --amend"
 alias gcm="git commit -m"
+alias gds="git diff --cached"
 alias gco="git checkout origin"
 alias gc="git checkout"
 alias gd="gitdiff"
@@ -140,8 +142,11 @@ alias gp="git pull"
 alias gu="gitunstage"
 alias gi="gitinfo"
 alias gb="gitbranch"
+alias gbv="git branch -v"
 alias ghide="git-unchanged"
 alias gh="ghide"
+alias grc="git rebase --continue"
+alias gchc="git cherry-pick --continue"
 alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
@@ -335,3 +340,25 @@ export -f detach
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+#source ~/.bashrc
+echo hi
+export JAVA_HOME=$(/usr/libexec/java_home)
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+alias javacheck="mvn -Dcheckstyle.config.location=../kickstarter-checkstyle.xml clean checkstyle:check"
+export REDSHIFT_USERNAME=kyeh
+alias redshift='psql -U $REDSHIFT_USERNAME -h redshift.ksr.io -p 5439 -d kickstarter'
+
+# usage: `$ redshift_sql "SELECT COUNT(*) FROM projects"`
+redshift_sql() {
+  psql -A -F ',' -U $REDSHIFT_USERNAME -h redshift.ksr.io -p 5439 -d kickstarter -c "$1" | tr "," "\t" | pbcopy
+}
+
+#export PATH=$PATH:$HOME/.rbenv/bin
+#export GEM_PATH=$GEM_PATH:/Library/Ruby/Gems/2.0.0/gems
+#export GEM_SPEC_CACHE=/Users/kevinyeh/.rbenv/versions/2.2.5/lib/ruby/gems/specs
+export PATH=$PATH:/Users/kevinyeh/.rbenv/shims
+export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
+
+if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
