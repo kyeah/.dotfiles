@@ -33,7 +33,7 @@
 (add-hook 'after-change-major-mode-hook 'remove-scratch-buffer)
 
 ;; Removes *messages* from the buffer.
-(setq-default message-log-max nil)
+(setq-default message-log-max 0)
 (kill-buffer "*Messages*")
 
 ;; Removes *Completions* from buffer after you've opened a file.
@@ -132,13 +132,19 @@
 ;;(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.dotfiles/el")
 
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
+
 (when (> emacs-major-version 23)
      (require 'package)
      (add-to-list 'package-archives
                   '("marmalade" .
                           "http://marmalade-repo.org/packages/") t)
      (add-to-list 'package-archives
-                  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+                  '("melpa" . "https://melpa.org/packages/"))
+     (when (< emacs-major-version 24)
+       ;; For important compatibility libraries like cl-lib
+         (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
      (package-initialize)
 
      ;; Ensure all packages are installed
@@ -147,9 +153,18 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer find-file-in-repository ido-ubiquitous smex ido-vertical-mode))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer find-file-in-repository ido-ubiquitous smex ido-vertical-mode robe grizzl smartparens rubocop))
 
      (setq ruby-insert-encoding-magic-comment nil)
+
+     ;; robe
+     ;;(eval-after-load 'company
+     ;;  '(push 'company-robe company-backends))
+     ;;(require 'robe)
+     ;;(require 'company)
+     ;;(add-hook 'after-init-hook 'global-company-mode)
+     ;;(add-hook 'after-init-hook 'robe-start)
+
      
      ;; tidalcycles
      (setq load-path (cons "~/tidal/" load-path))
@@ -158,9 +173,95 @@
      
      ;; Auto-Complete
      (require 'auto-complete-config)
-     (add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
+     (add-to-list 'ac-dictionary-directories
+                  "~/.emacs.d/elpa/auto-complete-20170124.1845/dict/")
      (ac-config-default)
+     (setq ac-ignore-case nil)
+     (add-to-list 'ac-modes 'enh-ruby-mode)
+     (add-to-list 'ac-modes 'web-mode)
 
+     ;; ruby
+     (setq enh-ruby-program "~/.rbenv/versions/2.2.5/bin/ruby")
+     (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
+     (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+     (add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
+     (add-to-list 'auto-mode-alist '("Rakefile$" . enh-ruby-mode))
+     (add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
+     (add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
+     (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
+
+     (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+
+     (setq enh-ruby-bounce-deep-indent t)
+     (setq enh-ruby-hanging-brace-indent-level 2)
+
+     (require 'cl) ; If you don't have it already
+
+     (require 'compile)
+
+     (defun rspec-compile-file ()
+       (interactive)
+       (compile (format "cd %s;bundle exec rspec %s"
+                        (get-closest-gemfile-root)
+                        (file-relative-name (buffer-file-name) (get-closest-gemfile-root))
+                        ) t))
+
+     (defun rspec-compile-on-line ()
+       (interactive)
+       (compile (format "cd %s;bundle exec rspec %s -l %s"
+                        (get-closest-gemfile-root)
+                        (file-relative-name (buffer-file-name) (get-closest-gemfile-root))
+                        (line-number-at-pos)
+                        ) t))
+
+     (add-hook 'enh-ruby-mode-hook
+               (lambda ()
+                 (local-set-key (kbd "C-c l") 'rspec-compile-on-line)
+                 (local-set-key (kbd "C-c k") 'rspec-compile-file)
+                 ))
+
+     ;; projectile
+     (require 'grizzl)
+     (projectile-global-mode)
+     (setq projectile-enable-caching t)
+     (setq projectile-completion-system 'grizzl)
+     ;; Press Command-p for fuzzy find in project
+     (global-set-key (kbd "s-p") 'projectile-find-file)
+     ;; Press Command-b for fuzzy switch buffer
+     (global-set-key (kbd "s-b") 'projectile-switch-to-buffer)
+
+
+     ;; smartparens
+     (require 'smartparens-config)
+     (require 'smartparens-ruby)
+     (smartparens-global-mode)
+     (show-smartparens-global-mode t)
+     ;;(sp-with-modes '(rhtml-mode)
+     ;;               (sp-local-pair "<" ">")
+     ;;               (sp-local-pair ""))
+     (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+
+     ;;; markdown-mode
+     (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+                    (sp-local-pair "*" "*" :bind "C-*")
+                    (sp-local-tag "2" "**" "**")
+                    (sp-local-tag "s" "```scheme" "```")
+                    (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+
+     ;;; tex-mode latex-mode
+     (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
+                    (sp-local-tag "i" "\"<" "\">"))
+
+     ;;; html-mode
+     (sp-with-modes '(html-mode sgml-mode)
+                    (sp-local-pair "<" ">"))
+
+     ;;; lisp modes
+     (sp-with-modes sp--lisp-modes
+                    (sp-local-pair "(" nil :bind "C-("))
+
+     (provide 'setup-smartparens)
+     
      ;; C-Eldoc (show function parameters)
      (setq c-eldoc-includes "`pkg-config gtk+-2.0 --cflags` -I./ -I../ ")
      (add-hook 'c-mode-hook 'c-turn-on-eldoc-mode)
