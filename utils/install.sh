@@ -61,6 +61,7 @@ done
 
 # update the submodules
 git submodule update --init
+brew install git bash-completion
 
 # source bashrc
 source ~/.bashrc

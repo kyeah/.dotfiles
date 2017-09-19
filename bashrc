@@ -316,3 +316,5 @@ complete -C aws_completer aws
 export AWS_REGION=us-east-1
 
 if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
+
+export PATH="$HOME/.yarn/bin:$PATH"

@@ -24,8 +24,8 @@ export PS1='\[\033[0;35m\]\h\[\033[0;33m\] \W\[\033[00m\]: '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
-export editor=emacs
-export EDITOR=emacs
+export editor='emacs -nw'
+export EDITOR='emacs -nw'
 # export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 # export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin
@@ -128,6 +128,7 @@ alias odoc='dopen'
 
 alias brb="bundle exec rails c"
 alias best="bundle exec rake test"
+alias gcoi="!git branch | cut -c 3- | fzf --reverse --preview 'git show {}' | xargs git checkout"
 alias gs="git status"
 alias gg="git grep"
 alias gca="git commit --amend"
@@ -137,6 +138,7 @@ alias gco="git checkout origin"
 alias gc="git checkout"
 alias gd="gitdiff"
 alias gl="gitlog"
+alias gld='git log --graph --all --decorate --stat --date=iso'
 alias ga="git add"
 alias gp="git pull"
 alias gu="gitunstage"
@@ -145,6 +147,11 @@ alias gb="gitbranch"
 alias gbv="git branch -v"
 alias ghide="git-unchanged"
 alias gh="ghide"
+alias gbme='git for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"' # last 10 branches worked on (personal)
+alias gla="git log --all --oneline --no-merges --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative" # recent history across all branches (non-personal)
+alias glme='gla --author=kevinyeah@utexas.edu' # recent history (personal)
+alias gt='gla --since=00:00:00'
+alias gtme='gt --author=kevinyeah@utexas.edu'
 alias grc="git rebase --continue"
 alias gchc="git cherry-pick --continue"
 alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
@@ -153,7 +160,9 @@ alias gitunstage="git reset HEAD"
 alias gitinfo="git remote show origin"
 alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
 alias git-forcetohead="git fetch --all; git reset --hard origin/master"
-alias git-unchanged="git update-index --assume-unchanged"
+alias git-unchanged="git update-index --skip-worktree"
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
 
 # Allow tab completion to propagate through sudo commands
 complete -cf sudo
@@ -318,6 +327,13 @@ detach () {
     fi
 }
 
+sr () {
+    if [ $# -ne 2]; then
+        exit
+    fi
+    LC_ALL=C find . -type f -name $1 -exec sed -i '' $2 {} +
+}
+
 function p () { cd "$HOME/code/$@"; }
 
 # mkdir // cd
@@ -337,6 +353,7 @@ export -f extract
 #export -f convert-anim-skip
 export -f cd
 export -f detach
+export -f sr
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -362,3 +379,4 @@ export PATH=$PATH:/Users/kevinyeh/.rbenv/shims
 export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
 
 if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
+export PATH="$HOME/.yarn/bin:$PATH"

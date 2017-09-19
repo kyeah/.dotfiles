@@ -1,10 +1,18 @@
 Host *
   ForwardAgent yes
 
-Host *.aws.ksr.io
+Host ssh.ksr.io
   User ksr
-    ProxyCommand ssh ksr@ssh.ksr.io netcat -w 300 %h %p
-      StrictHostKeyChecking no
+  ForwardAgent yes
+
+Host *.amazonaws.com *.ec2.internal *.aws.ksr.io
+  ProxyCommand ssh ksr@ssh.ksr.io -W %h:%p
+  User ksr
+
+#Host *.aws.ksr.io
+#  User ksr
+#    ProxyCommand ssh ksr@ssh.ksr.io netcat -w 300 %h %p
+#      StrictHostKeyChecking no
 
 Host airlock.ksr.io
   User ksr
@@ -25,3 +33,6 @@ User kyeh
 Host codebench
 Hostname codebench.us
 User root
+Host airlock.kickstarter.com
+  User ksr
+  ForwardAgent yes

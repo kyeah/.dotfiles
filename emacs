@@ -52,6 +52,10 @@
 ;; No more typing the whole yes or no. Just y or n will do.
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq js-indent-level 2)
+
+(setq column-number-mode t)
+
 ;; ===============
 ;; === ALIASES ===
 ;; ===============
@@ -135,6 +139,9 @@
 ;; (require 'cask "~/.cask/cask.el")
 ;; (cask-initialize)
 
+;; Navigate between windows using Alt-1, Alt-2, Shift-left, shift-up, shift-right
+ (windmove-default-keybindings)
+
 (when (> emacs-major-version 23)
      (require 'package)
      (add-to-list 'package-archives
@@ -153,23 +160,60 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode project-explorer find-file-in-repository ido-ubiquitous smex ido-vertical-mode robe grizzl smartparens rubocop))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository ido-ubiquitous smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby))
 
      (setq ruby-insert-encoding-magic-comment nil)
 
      ;; robe
-     ;;(eval-after-load 'company
-     ;;  '(push 'company-robe company-backends))
      ;;(require 'robe)
      ;;(require 'company)
      ;;(add-hook 'after-init-hook 'global-company-mode)
-     ;;(add-hook 'after-init-hook 'robe-start)
+     ;;(global-set-key (kbd "C-d") 'robe-jump)
+     ;;(add-hook 'ruby-mode-hook 'robe-mode)
+     ;;(eval-after-load 'company
+     ;;  '(push 'company-robe company-backends))
+     ;;(add-hook 'robe-mode-hook 'ac-robe-setup)
+     
+     ;;
+     (require 'helm)
+     (helm-mode 1)
+     (global-set-key (kbd "M-x") #'helm-M-x)
+     ;;(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+     (global-set-key (kbd "C-x C-f") #'helm-find-files)
+     (global-set-key (kbd "C-x C-g") #'helm-grep-do-git-grep)
 
+     ;;(require 'flymake-ruby)
+     ;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
+
+     ;;(flyspell-mode 1)
+     
+     ;;
+     ;;(autoload
+     ;;  'ace-jump-mode
+     ;;  "ace-jump-mode"
+     ;;  "Emacs quick move minor mode"
+     ;;  t)
+     ;; you can select the key you prefer to
+     ;;(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+
+
+     ;;
+     ;; enable a more powerful jump back function from ace jump mode
+     ;;
+     ;;(autoload
+     ;;  'ace-jump-mode-pop-mark
+     ;;  "ace-jump-mode"
+     ;;  "Ace jump back:-)"
+     ;;  t)
+     ;;(eval-after-load "ace-jump-mode"
+     ;;  '(ace-jump-mode-enable-mark-sync))
+     ;;(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
      
      ;; tidalcycles
-     (setq load-path (cons "~/tidal/" load-path))
-     (require 'tidal)
-     (setq tidal-interpreter "/usr/local/bin/ghci")
+     ;;(setq load-path (cons "~/tidal/" load-path))
+     ;;(require 'tidal)
+     ;;(setq tidal-interpreter "/usr/local/bin/ghci")
      
      ;; Auto-Complete
      (require 'auto-complete-config)
@@ -181,6 +225,7 @@
      (add-to-list 'ac-modes 'web-mode)
 
      ;; ruby
+     (add-hook 'enh-ruby-mode-hook 'robe-mode)
      (setq enh-ruby-program "~/.rbenv/versions/2.2.5/bin/ruby")
      (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
      (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
@@ -189,9 +234,10 @@
      (add-to-list 'auto-mode-alist '("\\.gemspec$" . enh-ruby-mode))
      (add-to-list 'auto-mode-alist '("\\.ru$" . enh-ruby-mode))
      (add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
-
+     (setq ruby-deep-indent-paren nil)
      (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
+     (setq enh-ruby-deep-indent-construct nil)
      (setq enh-ruby-bounce-deep-indent t)
      (setq enh-ruby-hanging-brace-indent-level 2)
 
@@ -199,19 +245,35 @@
 
      (require 'compile)
 
+     (defun* get-closest-gemfile-root (&optional (file "Gemfile"))
+         "Determine the pathname of the first instance of FILE starting from the current directory towards root.
+This may not do the correct thing in presence of links. If it does not find FILE, then it shall return the name
+of FILE in the current directory, suitable for creation"
+         (let ((root (expand-file-name "/"))) ; the win32 builds should translate this correctly
+           (loop
+            for d = default-directory then (expand-file-name ".." d)
+            if (file-exists-p (expand-file-name file d))
+            return d
+            if (equal d root)
+            return nil)))
+     
      (defun rspec-compile-file ()
        (interactive)
-       (compile (format "cd %s;bundle exec rspec %s"
+       (compile (format "cd %s;bin/rails test %s"
                         (get-closest-gemfile-root)
                         (file-relative-name (buffer-file-name) (get-closest-gemfile-root))
                         ) t))
 
+     (defun get-current-test-name ()
+       (re-search-backward "context \".*\" do")
+       (buffer-substring-no-properties (match-beginning 1) (match-end 1)))
+
      (defun rspec-compile-on-line ()
        (interactive)
-       (compile (format "cd %s;bundle exec rspec %s -l %s"
+       (compile (format "cd %s;bin/rails test %s %s"
                         (get-closest-gemfile-root)
                         (file-relative-name (buffer-file-name) (get-closest-gemfile-root))
-                        (line-number-at-pos)
+                        (get-current-test-name)
                         ) t))
 
      (add-hook 'enh-ruby-mode-hook
@@ -229,7 +291,6 @@
      (global-set-key (kbd "s-p") 'projectile-find-file)
      ;; Press Command-b for fuzzy switch buffer
      (global-set-key (kbd "s-b") 'projectile-switch-to-buffer)
-
 
      ;; smartparens
      (require 'smartparens-config)
@@ -293,11 +354,13 @@
      (require 'scala-mode)
      (require 'rust-mode)
 
-     (require 'project-explorer)
-     (defalias 'nav 'project-explorer-open)
-     (global-set-key (kbd "C-w") 'nav)
+     ;; laggy af
+     ;(require 'project-explorer)
+     ;;(defalias 'nav 'project-explorer-open)
+     ;;(global-set-key (kbd "C-w") 'nav)
 
      (require 'find-file-in-repository)
+     (global-set-key (kbd "C-w") 'find-file)
      (global-set-key (kbd "C-x f") 'find-file-in-repository)
 
      (ido-mode 1)
