@@ -14,13 +14,26 @@
 ;; =================
 
 (custom-set-variables
- '(indent-tabs-mode nil)          ;; Convert all tabs to spaces
- '(cua-remap-control-z nil)       ;; Prevent CUA-mode from overriding ctrl-z
- '(transient-mark-mode t)         ;; make the current 'selection' visible
- '(delete-selection-mode t)       ;; delete the selection area with a keypress
- '(inhibit-startup-screen t))     ;; No startup screen
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cua-remap-control-z nil)
+ '(delete-selection-mode t)
+ '(indent-tabs-mode nil)
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode ido-ubiquitous icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+ '(transient-mark-mode t))
+ ;; No startup screen
 
-(custom-set-faces)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 (cua-mode t)
 
 ;; Makes *scratch* empty.

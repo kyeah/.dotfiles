@@ -29,7 +29,7 @@ export EDITOR='emacs -nw'
 # export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 # export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin
-export GOPATH=$HOME/gocode
+export GOPATH=$HOME/code/go
 export SPARK_HOME=$HOME/Programs/spark-1.2.0-bin-hadoop2.4
 export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
 # Add RVM (Ruby Virt Machine) to PATH for scripting
@@ -42,7 +42,7 @@ alias ll='ls -lh -G'
 alias lla='ls -alh -G'
 alias lal='lla'
 
-alias emacs='/usr/local/Cellar/emacs/24.5/bin/emacs-24.5 -nw'
+alias emacs='emacs -nw'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -375,7 +375,7 @@ redshift_sql() {
 #export PATH=$PATH:$HOME/.rbenv/bin
 #export GEM_PATH=$GEM_PATH:/Library/Ruby/Gems/2.0.0/gems
 #export GEM_SPEC_CACHE=/Users/kevinyeh/.rbenv/versions/2.2.5/lib/ruby/gems/specs
-export PATH=$PATH:/Users/kevinyeh/.rbenv/shims
+#export PATH=$PATH:/Users/kevinyeh/.rbenv/shims
 export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
 
 if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
