@@ -1,3 +1,27 @@
+# Pyenv is removing the default ability to append pyenv environment
+# to the prompt. This export removes the deprecation warning.
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+# But since adding pyenv to the prompt is useful anyway, this function
+# re-adds it.
+__pyenv_version_ps1 ()
+{
+    local ret=$?;
+    if [ -n "${PYENV_VERSION}" ]; then
+        echo -n "(${PYENV_VERSION}) "
+    fi
+    return $?
+}
+
+PS1="\$(__pyenv_version_ps1)${PS1}"
+
+# Init pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Default duration for MFA
+export MFA_STS_DURATION=3600
+
 export JAVA_HOME=/home/kyeh/Programs/jdk1.8.0_40
 export RUST_TEST_THREADS=1
 
@@ -24,8 +48,8 @@ export PS1='\[\033[0;35m\]\h\[\033[0;33m\] \W\[\033[00m\]: '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
 export GREP_OPTIONS='--color=auto -n'
-export editor='emacs -nw'
-export EDITOR='emacs -nw'
+export editor='/usr/local/Cellar/emacs/25.3/bin/emacs -nw'
+export EDITOR='/usr/local/Cellar/emacs/25.3/bin/emacs -nw'
 # export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 # export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
 export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin
@@ -42,7 +66,7 @@ alias ll='ls -lh -G'
 alias lla='ls -alh -G'
 alias lal='lla'
 
-alias emacs='emacs -nw'
+alias emacs='/usr/local/Cellar/emacs/25.3/bin/emacs -nw'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -57,6 +81,9 @@ alias xcopy='xclip -sel clip < '
 
 alias df='df -h'      # human-readable filesizes
 alias free='free -m'  # MB filesies
+
+alias dc='docker-compose'
+alias dce='dc exec'
 
 #######################
 ### Deb-based Linux ###

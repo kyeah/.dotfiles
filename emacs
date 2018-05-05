@@ -24,7 +24,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode ido-ubiquitous icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -173,7 +173,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository ido-ubiquitous smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git))
 
      (setq ruby-insert-encoding-magic-comment nil)
 
@@ -189,11 +189,25 @@
      
      ;;
      (require 'helm)
+     (require 'helm-ls-git)
      (helm-mode 1)
      (global-set-key (kbd "M-x") #'helm-M-x)
      ;;(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
      (global-set-key (kbd "C-x C-f") #'helm-find-files)
      (global-set-key (kbd "C-x C-g") #'helm-grep-do-git-grep)
+     (global-set-key (kbd "C-x c") 'helm-ls-git-ls)
+     (setq helm-ff-skip-boring-files t)
+     (setq helm-ff-file-name-history-use-recentf t)
+     (setq helm-boring-file-regexp-list
+           '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "~$"
+             "\\.so$" "\\.a$" "\\.elc$" "\\.fas$" "\\.fasl$" "\\.pyc$" "\\.pyo$" "node_modules"))
+
+     ;; flycheck eslint_d
+     (require 'flycheck)
+     (require 'eslintd-fix)
+     (setq flycheck-javascript-eslint-executable "eslint_d")
+     (add-hook 'after-init-hook #'global-flycheck-mode)
+     (add-hook 'after-init-hook #'eslintd-fix-mode)     
 
      ;;(require 'flymake-ruby)
      ;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
@@ -289,11 +303,18 @@ of FILE in the current directory, suitable for creation"
                         (get-current-test-name)
                         ) t))
 
-     (add-hook 'enh-ruby-mode-hook
-               (lambda ()
-                 (local-set-key (kbd "C-c l") 'rspec-compile-on-line)
-                 (local-set-key (kbd "C-c k") 'rspec-compile-file)
-                 ))
+     ;; (add-hook 'enh-ruby-mode-hook
+     ;;          (lambda ()
+     ;;            (local-set-key (kbd "C-c l") 'rspec-compile-on-line)
+     ;;            (local-set-key (kbd "C-c k") 'rspec-compile-file)
+     ;;            ))
+
+     (global-set-key (kbd "C-c l") 'mocha-test-at-point)
+     (global-set-key (kbd "C-c k") 'mocha-test-file)
+     (setq js2-mode-show-parse-errors nil)
+     (setq js2-mode-show-strict-warnings nil)
+     (require 'js2-mode)
+     (add-hook 'js-mode-hook 'js2-minor-mode)
 
      ;; projectile
      (require 'grizzl)
@@ -351,7 +372,7 @@ of FILE in the current directory, suitable for creation"
      (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
      ;; Undo-tree
-     (undo-tree-mode)
+     (global-undo-tree-mode)
 
      ;; Color-theme
      (require 'color-theme)
@@ -378,8 +399,6 @@ of FILE in the current directory, suitable for creation"
 
      (ido-mode 1)
      (ido-everywhere 1)
-     (require 'ido-ubiquitous)
-     (ido-ubiquitous-mode 1)
      (require 'ido-vertical-mode)
      (setq ido-use-faces t)
      (set-face-attribute 'ido-vertical-first-match-face nil
