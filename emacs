@@ -209,6 +209,14 @@
            '("\\.git$" "\\.hg$" "\\.svn$" "\\.CVS$" "\\._darcs$" "\\.la$" "\\.o$" "~$"
              "\\.so$" "\\.a$" "\\.elc$" "\\.fas$" "\\.fasl$" "\\.pyc$" "\\.pyo$" "node_modules"))
 
+     (set-face-attribute 'helm-selection nil 
+                    :background "yellow"
+                    :foreground "black")
+
+     (set-face-attribute 'helm-ff-file nil 
+                         :foreground "white")
+
+     
      ;; flycheck eslint_d
      (require 'flycheck)
      (require 'eslintd-fix)
