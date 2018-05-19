@@ -18,13 +18,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(coverlay:base-path "/Users/kyeah/jam/qpp-submissions-api/")
+ '(coverlay:mark-tested-lines nil)
+ '(coverlay:untested-line-background-color "#1c0101")
  '(cua-remap-control-z nil)
  '(delete-selection-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -177,6 +180,10 @@
 
      (setq ruby-insert-encoding-magic-comment nil)
 
+     (require 'benchmark-init)
+     ;; To disable collection of benchmark data after init is done.
+     (add-hook 'after-init-hook 'benchmark-init/deactivate)
+     
      ;; robe
      ;;(require 'robe)
      ;;(require 'company)
@@ -188,8 +195,8 @@
      ;;(add-hook 'robe-mode-hook 'ac-robe-setup)
      
      ;;
-     (require 'helm)
-     (require 'helm-ls-git)
+     ;; (require 'helm)
+     ;; (require 'helm-ls-git)
      (helm-mode 1)
      (global-set-key (kbd "M-x") #'helm-M-x)
      ;;(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
@@ -328,13 +335,16 @@ of FILE in the current directory, suitable for creation"
 
      (global-set-key (kbd "C-c l") 'mocha-test-at-point)
      (global-set-key (kbd "C-c k") 'mocha-test-file)
+     ;; (setq mocha-command "docker-compose exec app node_modules/.bin/mocha")
+
      (setq js2-mode-show-parse-errors nil)
      (setq js2-mode-show-strict-warnings nil)
-     (require 'js2-mode)
+     ;; (require 'js2-mode)
+     ;;(add-hook 'js-mode-hook 'js2-mode)
      (add-hook 'js-mode-hook 'js2-minor-mode)
 
      ;; projectile
-     (require 'grizzl)
+     ;; (require 'grizzl)
      (projectile-global-mode)
      (setq projectile-enable-caching t)
      (setq projectile-completion-system 'grizzl)
@@ -344,8 +354,8 @@ of FILE in the current directory, suitable for creation"
      (global-set-key (kbd "s-b") 'projectile-switch-to-buffer)
 
      ;; smartparens
-     (require 'smartparens-config)
-     (require 'smartparens-ruby)
+     ;; (require 'smartparens-config)
+     ;; (require 'smartparens-ruby)
      (smartparens-global-mode)
      (show-smartparens-global-mode t)
      ;;(sp-with-modes '(rhtml-mode)
@@ -382,9 +392,9 @@ of FILE in the current directory, suitable for creation"
      (add-hook 'haskell-mode-hook 'haskell-indent-mode)
 
      ;; Jade
-     (require 'scala-mode)
-     (require 'sws-mode)
-     (require 'jade-mode)
+     ;; (require 'scala-mode)
+     ;; (require 'sws-mode)
+     ;; (require 'jade-mode)
      (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
      (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
@@ -392,25 +402,25 @@ of FILE in the current directory, suitable for creation"
      (global-undo-tree-mode)
 
      ;; Color-theme
-     (require 'color-theme)
+     ;; (require 'color-theme)
      (color-theme-initialize)
      (add-to-list 'custom-theme-load-path "~/.dotfiles/el/emacs-color-theme-solarized")
      (load-theme 'solarized-dark t)
      
      ;; Lua
-     (require 'lua-mode)
+     ;; (require 'lua-mode)
      (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
      (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
 
-     (require 'scala-mode)
-     (require 'rust-mode)
+     ;; (require 'scala-mode)
+     ;; (require 'rust-mode)
 
      ;; laggy af
      ;(require 'project-explorer)
      ;;(defalias 'nav 'project-explorer-open)
      ;;(global-set-key (kbd "C-w") 'nav)
 
-     (require 'find-file-in-repository)
+     ;; (require 'find-file-in-repository)
      (global-set-key (kbd "C-w") 'find-file)
      (global-set-key (kbd "C-x f") 'find-file-in-repository)
 
@@ -428,7 +438,7 @@ of FILE in the current directory, suitable for creation"
      (ido-vertical-mode 1)
      (setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
 
-     (require 'smex)
+     ;; (require 'smex)
      (smex-initialize)
 
      (global-set-key (kbd "M-x") 'smex)
@@ -449,4 +459,4 @@ of FILE in the current directory, suitable for creation"
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
   )
 
-(require 'haskell-mode)
+;; (require 'haskell-mode)
