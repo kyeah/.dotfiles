@@ -290,14 +290,14 @@ of FILE in the current directory, suitable for creation"
             if (equal d root)
             return nil)))
 
-     (let ((root (expand-file-name (get-closest-gemfile-root ".git"))))
-       (when (and root
-                  (file-exists-p (format "%scoverage/lcov.info" root)))
-         (customize-set-variable 'coverlay:base-path root)
-         (customize-set-variable 'coverlay:untested-line-background-color "#1c0101")
-         (customize-set-variable 'coverlay:mark-tested-lines nil)
-         (coverlay-load-file (format "%scoverage/lcov.info" root))
-         (global-coverlay-mode)))
+     (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".git")))))
+       (when root
+         (when (file-exists-p (format "%scoverage/lcov.info" root))
+           (customize-set-variable 'coverlay:base-path root)
+           (customize-set-variable 'coverlay:untested-line-background-color "#1c0101")
+           (customize-set-variable 'coverlay:mark-tested-lines nil)
+           (coverlay-load-file (format "%scoverage/lcov.info" root))
+           (global-coverlay-mode))))
 
      (global-set-key (kbd "C-c c") 'global-coverlay-mode)
 
