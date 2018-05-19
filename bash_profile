@@ -118,6 +118,20 @@ alias pac-find="pacf"
 alias ya="yaourt -Sy"   # Install AUR package with fresh database
 alias yas="yaourt -Ss"  # Search AUR packages
 
+###########
+### AWS ###
+###########
+
+alias awls='awless list instances --columns="id,zone,name,state,type,public ip,private ip,uptime,keypair,image,vpc" --sort="name,private ip,vpc"'
+
+alias awlss='awless list instances --columns="id,name,state,private ip,uptime,vpc" --sort="name,private ip,vpc"'
+
+alias awsqpp='export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops && aws-mfa && awless switch $AWS_PROFILE us-east-1'
+
+alias t='terraform'
+alias ts='t state'
+alias tp='t plan'
+
 ############################
 
 # Directory History

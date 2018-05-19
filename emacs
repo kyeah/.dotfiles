@@ -24,7 +24,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -173,7 +173,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay))
 
      (setq ruby-insert-encoding-magic-comment nil)
 
@@ -272,6 +272,12 @@
 
      (require 'compile)
 
+     (defun vc-root-dir ()
+       (let ((backend (vc-deduce-backend)))
+         (and backend
+              (ignore-errors
+                (vc-call-backend backend 'root default-directory)))))
+
      (defun* get-closest-gemfile-root (&optional (file "Gemfile"))
          "Determine the pathname of the first instance of FILE starting from the current directory towards root.
 This may not do the correct thing in presence of links. If it does not find FILE, then it shall return the name
@@ -283,7 +289,15 @@ of FILE in the current directory, suitable for creation"
             return d
             if (equal d root)
             return nil)))
-     
+
+     (customize-set-variable 'coverlay:base-path (expand-file-name (get-closest-gemfile-root ".git")))
+     (customize-set-variable 'coverlay:tested-line-background-color "")
+     (customize-set-variable 'coverlay:untested-line-background-color "#1c0101")
+     (coverlay-load-file (format "%scoverage/lcov.info"
+                                 (expand-file-name (get-closest-gemfile-root ".git"))))
+
+     (global-set-key (kbd "C-c c") 'global-coverlay-mode)
+
      (defun rspec-compile-file ()
        (interactive)
        (compile (format "cd %s;bin/rails test %s"
