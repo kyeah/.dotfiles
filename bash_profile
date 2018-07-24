@@ -380,6 +380,31 @@ function p () { cd "$HOME/code/$@"; }
 # mkdir // cd
 function mcd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
+awsqppr () {
+    export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops
+    aws-mfa
+    awless switch $AWS_PROFILE us-east-1
+    osascript - title <<END
+on run a
+  tell app "Reminders"
+    set endingDate to (current date) + (55 * minutes)
+    set endDate to (current date) + (60 * minutes)
+    tell list "Reminders" of default account
+      set newReminder to make new reminder
+      set name of newReminder to "AWS creds expire in 5 minutes"
+      set remind me date of newReminder to endingDate
+    end tell
+    tell list "Reminders" of default account
+      set newReminder to make new reminder
+      set name of newReminder to "AWS creds have expired"
+      set remind me date of newReminder to endDate
+    end tell
+  end tell
+end
+END
+}
+
+export -f awsqppr
 export -f fgkill
 export -f opendir
 export -f gitdiff
