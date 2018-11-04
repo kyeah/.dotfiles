@@ -18,7 +18,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(coverlay:base-path "/Users/kyeah/jam/qpp-submissions-api/")
+ '(coverlay:base-path "")
  '(coverlay:mark-tested-lines nil)
  '(coverlay:untested-line-background-color "#1c0101")
  '(cua-remap-control-z nil)
@@ -27,7 +27,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -151,7 +151,6 @@
 
 ;;(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.dotfiles/el")
-
 ;; (require 'cask "~/.cask/cask.el")
 ;; (cask-initialize)
 
@@ -176,19 +175,38 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js))
 
      (setq ruby-insert-encoding-magic-comment nil)
 
      (require 'benchmark-init)
      ;; To disable collection of benchmark data after init is done.
      (add-hook 'after-init-hook 'benchmark-init/deactivate)
-     
+
      ;; robe
      ;;(require 'robe)
-     ;;(require 'company)
-     ;;(add-hook 'after-init-hook 'global-company-mode)
-     ;;(global-set-key (kbd "C-d") 'robe-jump)
+     (require 'company)
+     (add-hook 'after-init-hook 'global-company-mode)
+     (setq company-idle-delay 0.2
+           company-echo-delay 0.0
+           company-minimum-prefix-length 2
+           company-tooltip-flip-when-above t
+           company-dabbrev-downcase nil)
+
+      (require 'prettier-js)
+      (require 'flow-minor-mode)
+
+     (require 'tide)
+     (setq tide-completion-detailed t)
+     (setq tide-always-show-documentation t)
+
+     (setq prettier-js-args '(
+                              "--trailing-comma" "none"
+                              "--parser" "flow"
+                              "--semi" "false"
+                              "single-quote" "true"
+                              ))
+;;(global-set-key (kbd "C-d") 'robe-jump)
      ;;(add-hook 'ruby-mode-hook 'robe-mode)
      ;;(eval-after-load 'company
      ;;  '(push 'company-robe company-backends))
@@ -201,8 +219,8 @@
      (global-set-key (kbd "M-x") #'helm-M-x)
      ;;(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
      (global-set-key (kbd "C-x C-f") #'helm-find-files)
-     (global-set-key (kbd "C-x C-g") #'helm-grep-do-git-grep)
-     (global-set-key (kbd "C-x c") 'helm-ls-git-ls)
+     (global-set-key (kbd "C-w") #'helm-grep-do-git-grep)
+     (global-set-key (kbd "C-x f") 'helm-ls-git-ls)
      (setq helm-ff-skip-boring-files t)
      (setq helm-ff-file-name-history-use-recentf t)
      (setq helm-boring-file-regexp-list
@@ -216,13 +234,13 @@
      (set-face-attribute 'helm-ff-file nil 
                          :foreground "white")
 
-     
-     ;; flycheck eslint_d
-     (require 'flycheck)
-     (require 'eslintd-fix)
-     (setq flycheck-javascript-eslint-executable "eslint_d")
-     (add-hook 'after-init-hook #'global-flycheck-mode)
-     (add-hook 'after-init-hook #'eslintd-fix-mode)     
+
+     ;; jsdoc
+     (global-set-key (kbd "C-c i") 'js-doc-insert-function-doc)
+
+     ;;(add-hook 'after-init-hook #'global-flycheck-mode)
+     ;;(add-hook 'after-init-hook #'eslintd-fix-mode)
+     ;;(add-to-list 'flycheck-disabled-checkers 'javascript-jshint)
 
      ;;(require 'flymake-ruby)
      ;;(add-hook 'ruby-mode-hook 'flymake-ruby-load)
@@ -258,13 +276,13 @@
      ;;(setq tidal-interpreter "/usr/local/bin/ghci")
      
      ;; Auto-Complete
-     (require 'auto-complete-config)
-     (add-to-list 'ac-dictionary-directories
-                  "~/.emacs.d/elpa/auto-complete-20170124.1845/dict/")
-     (ac-config-default)
-     (setq ac-ignore-case nil)
-     (add-to-list 'ac-modes 'enh-ruby-mode)
-     (add-to-list 'ac-modes 'web-mode)
+     ;;(require 'auto-complete-config)
+     ;;(add-to-list 'ac-dictionary-directories
+     ;;            "~/.emacs.d/elpa/auto-complete-20170124.1845/dict/")
+     ;;(ac-config-default)
+     ;;(setq ac-ignore-case nil)
+     ;;(add-to-list 'ac-modes 'enh-ruby-mode)
+     ;;(add-to-list 'ac-modes 'web-mode)
 
      ;; ruby
      (add-hook 'enh-ruby-mode-hook 'robe-mode)
@@ -308,13 +326,33 @@ of FILE in the current directory, suitable for creation"
      (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".git")))))
        (when root
          (when (file-exists-p (format "%scoverage/lcov.info" root))
-           (customize-set-variable 'coverlay:base-path root)
+           (customize-set-variable 'coverlay:base-path "")
            (customize-set-variable 'coverlay:untested-line-background-color "#1c0101")
            (customize-set-variable 'coverlay:mark-tested-lines nil)
            (coverlay-load-file (format "%scoverage/lcov.info" root))
            (global-coverlay-mode))))
 
      (global-set-key (kbd "C-c c") 'global-coverlay-mode)
+
+     ;; flycheck eslint_d / standard
+     (require 'eslintd-fix)
+     (use-package flycheck
+                  :ensure t
+                  :config (progn
+                          (global-flycheck-mode)
+                          (setq-default flycheck-disabled-checkers
+                                        (append flycheck-disabled-checkers
+                                                '(javascript-jshint)))
+                          (setq-default flycheck-javascript-eslint-executable "eslint_d")
+                          (setq-default flycheck-checker 'javascript-standard)
+                          (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".eslintrc")))))
+                            (when root
+                              (setq-default flycheck-checker 'javascript-eslint)
+))
+                        
+                          )
+                  )
+
 
      (defun rspec-compile-file ()
        (interactive)
@@ -343,13 +381,19 @@ of FILE in the current directory, suitable for creation"
 
      (global-set-key (kbd "C-c l") 'mocha-test-at-point)
      (global-set-key (kbd "C-c k") 'mocha-test-file)
-     ;; (setq mocha-command "docker-compose exec app node_modules/.bin/mocha")
+     ;; (setq mocha-which-node "docker-compose exec app node")
+     (setq mocha-command "node_modules/.bin/mocha")
+     ;; (setq mocha-reporter "dot")
 
      (setq js2-mode-show-parse-errors nil)
      (setq js2-mode-show-strict-warnings nil)
-     ;; (require 'js2-mode)
+     (require 'js2-mode)
      ;;(add-hook 'js-mode-hook 'js2-mode)
-     (add-hook 'js-mode-hook 'js2-minor-mode)
+     ;;(add-hook 'js-mode-hook 'js2-minor-mode)
+     (add-hook 'js-mode-hook 'run-import-js)
+     (add-hook 'js2-mode-hook 'ac-js2-mode)
+     (setq ac-js2-evaluate-calls t)
+     (add-hook 'after-save-hook 'import-js-fix)
 
      ;; projectile
      ;; (require 'grizzl)
@@ -357,9 +401,9 @@ of FILE in the current directory, suitable for creation"
      (setq projectile-enable-caching t)
      (setq projectile-completion-system 'grizzl)
      ;; Press Command-p for fuzzy find in project
-     (global-set-key (kbd "s-p") 'projectile-find-file)
+     (global-set-key (kbd "C-x c") 'projectile-find-file)
      ;; Press Command-b for fuzzy switch buffer
-     (global-set-key (kbd "s-b") 'projectile-switch-to-buffer)
+     (global-set-key (kbd "C-x v") 'projectile-switch-to-buffer)
 
      ;; smartparens
      ;; (require 'smartparens-config)
@@ -429,8 +473,8 @@ of FILE in the current directory, suitable for creation"
      ;;(global-set-key (kbd "C-w") 'nav)
 
      ;; (require 'find-file-in-repository)
-     (global-set-key (kbd "C-w") 'find-file)
-     (global-set-key (kbd "C-x f") 'find-file-in-repository)
+     ;;(global-set-key (kbd "C-w") 'find-file)
+     ;;(global-set-key (kbd "C-x f") 'find-file-in-repository)
 
      (ido-mode 1)
      (ido-everywhere 1)
@@ -454,6 +498,12 @@ of FILE in the current directory, suitable for creation"
      ;; This is your old M-x.
      (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
      )
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
+(load-file "~/.dotfiles/el/standardfmt.el")
+;;(require 'standardfmt)
 
 (when (<= emacs-major-version 23)
   ;; If version <= 23

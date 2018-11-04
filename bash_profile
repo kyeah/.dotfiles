@@ -44,16 +44,16 @@ done
 [ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 
 # Better color schemes
-export PS1='\[\033[0;35m\]\h\[\033[0;33m\] \W\[\033[00m\]: '
+export PS1='\[\033[0;33m\]\W:\[\033[00m\] '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
-export GREP_OPTIONS='--color=auto -n'
+#export GREP_OPTIONS='--color=auto -n'
 export editor='/usr/local/Cellar/emacs/25.3/bin/emacs -nw'
 export EDITOR='/usr/local/Cellar/emacs/25.3/bin/emacs -nw'
 # export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 # export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
-export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin
-export GOPATH=$HOME/code/go
+export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin:/usr/local/Cellar/node/10.1.0/bin/
+export GOPATH=$HOME/jam/go
 export SPARK_HOME=$HOME/Programs/spark-1.2.0-bin-hadoop2.4
 export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
 # Add RVM (Ruby Virt Machine) to PATH for scripting
@@ -84,6 +84,8 @@ alias free='free -m'  # MB filesies
 
 alias dc='docker-compose'
 alias dce='dc exec'
+alias dtg='dc exec app npm run test:grep'
+alias dt='dc exec app npm run test'
 
 #######################
 ### Deb-based Linux ###
@@ -126,7 +128,8 @@ alias awls='awless list instances --columns="id,zone,name,state,type,public ip,p
 
 alias awlss='awless list instances --columns="id,name,state,private ip,uptime,vpc" --sort="name,private ip,vpc"'
 
-alias awsqpp='export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops && aws-mfa && awless switch $AWS_PROFILE us-east-1'
+alias awsqpp='export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops && aws-mfa' # && awless switch $AWS_PROFILE us-east-1'
+
 
 alias t='terraform'
 alias ts='t state'
@@ -383,7 +386,7 @@ function mcd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 awsqppr () {
     export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops
     aws-mfa
-    awless switch $AWS_PROFILE us-east-1
+    # awless switch $AWS_PROFILE us-east-1
     osascript - title <<END
 on run a
   tell app "Reminders"
@@ -446,3 +449,5 @@ export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
 
 if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
 export PATH="$HOME/.yarn/bin:$PATH"
+
+export PATH="$HOME/.cargo/bin:$PATH"

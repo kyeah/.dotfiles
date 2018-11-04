@@ -2,6 +2,7 @@ Host *
  AddKeysToAgent yes
   UseKeychain yes
    IdentityFile ~/.ssh/id_rsa
+   IdentitiesOnly yes
  ForwardAgent yes
 
 Host ssh.ksr.io
@@ -24,6 +25,8 @@ Host airlock.ksr.io
 Host kyeh.me
 HostName cpanel98.fastdnsservers.com
 User a2180
+IdentityFile ~/.ssh/id_rsa
+IdentitiesOnly yes
 
 Host pocky
 HostName pocky.cs.utexas.edu
