@@ -394,6 +394,7 @@ of FILE in the current directory, suitable for creation"
      (add-hook 'js2-mode-hook 'ac-js2-mode)
      (setq ac-js2-evaluate-calls t)
      (add-hook 'after-save-hook 'import-js-fix)
+     (global-set-key (kbd "C-x e") 'import-js-goto)
 
      ;; projectile
      ;; (require 'grizzl)
