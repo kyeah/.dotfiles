@@ -70,9 +70,10 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (flycheck-flow solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
+ '(scroll-bar-mode nil t)
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
@@ -289,7 +290,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor company-tern))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor company-tern flycheck-flow))
 
      ;; (use-package rainbow-delimiters
      ;;   :ensure t
@@ -349,13 +350,13 @@
            company-dabbrev-downcase nil)
      (add-hook 'after-init-hook 'global-company-mode)
      (add-to-list 'company-backends 'company-tern)
+     (add-to-list 'company-backends 'company-flow)
      (add-hook 'js2-mode-hook (lambda ()
                            (tern-mode)))
      (define-key tern-mode-keymap (kbd "M-.") nil)
      (define-key tern-mode-keymap (kbd "M-,") nil)
      ;;(add-hook 'js2-mode-hook 'setup-tide-mode)
      (require 'prettier-js)
-      (require 'flow-minor-mode)
 
       ;;(require 'tide)
       ;;(setq tide-completion-detailed t)
@@ -522,10 +523,14 @@ of FILE in the current directory, suitable for creation"
                                                 '(javascript-jshint)))
                           (setq-default flycheck-javascript-eslint-executable "eslint_d")
                           (setq-default flycheck-checker 'javascript-standard)
+                          (require 'flow-minor-mode)
+                          ;;(flycheck-add-mode 'javascript-flow 'flow-minor-mode)
+                          ;;(flycheck-add-next-checker 'javascript-flow 'javascript-standard)
+                          (add-hook 'js2-mode-hook (lambda ()
                           (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".eslintrc")))))
                             (when root
                               (setq-default flycheck-checker 'javascript-eslint)
-                              (add-hook 'after-save-hook 'eslintd-fix)
+                              (add-hook 'after-save-hook 'eslintd-fix)))
                               ;; configure javascript-tide checker to run after your default javascript checker
                               ;;(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
 
@@ -609,9 +614,9 @@ of FILE in the current directory, suitable for creation"
      (projectile-global-mode)
      (setq projectile-enable-caching t)
      (setq projectile-completion-system 'grizzl)
-     ;; Press Command-p for fuzzy find in project
+     ;; fuzzy find in project
      (global-set-key (kbd "C-x c") 'projectile-find-file)
-     ;; Press Command-b for fuzzy switch buffer
+     ;; fuzzy switch buffer
      (global-set-key (kbd "C-x v") 'projectile-switch-to-buffer)
 
      ;; smartparens
