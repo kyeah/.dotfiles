@@ -27,7 +27,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -272,6 +272,10 @@
      ;; jsdoc
      (global-set-key (kbd "C-c i") 'js-doc-insert-function-doc)
 
+     (require 'realgud)
+     (load-file "~/.dotfiles/el/realgud-nodejs.el")
+     (setq realgud:nodejs-command-name "node inspect")
+
      ;;(add-hook 'after-init-hook #'global-flycheck-mode)
      ;;(add-hook 'after-init-hook #'eslintd-fix-mode)
      ;;(add-to-list 'flycheck-disabled-checkers 'javascript-jshint)
@@ -419,6 +423,7 @@ of FILE in the current directory, suitable for creation"
      (setq mocha-which-node "docker-compose exec app node")
      (setq mocha-environment-variables "NODE_ENV=test")
      (setq mocha-command "node_modules/.bin/nyc --cache --reporter=text-summary --reporter=html node_modules/.bin/mocha --exit --recursive --timeout 10000 --forbid-only")
+     (setq mocha-debug-port "9230")
 
      ;; Load .env into emacs
      (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".git")))))
