@@ -18,17 +18,95 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
+ '(background-color "#141414")
+ '(background-mode dark)
+ '(compilation-message-face (quote default))
  '(coverlay:base-path "")
  '(coverlay:mark-tested-lines nil)
  '(coverlay:untested-line-background-color "#1c0101")
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
  '(cua-remap-control-z nil)
+ '(cursor-color "#B0B0B0")
+ '(custom-safe-themes
+   (quote
+    ("972e9adecad4b52e81c3e49a434bf189caf4be4d380a0106bd168429355c8bc9" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(delete-selection-mode t)
+ '(fci-rule-color "#073642")
+ '(foreground-color "#B0B0B0")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   (quote
+    (("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(magit-diff-use-overlays nil)
+ '(nrepl-message-colors
+   (quote
+    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
- '(transient-mark-mode t))
+    (solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
+ '(transient-mark-mode t)
+ '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#dc322f")
+     (40 . "#c3c373730000")
+     (60 . "#b9b97d7d0000")
+     (80 . "#b58900")
+     (100 . "#a24c87870000")
+     (120 . "#9b9b87870000")
+     (140 . "#94e987870000")
+     (160 . "#8e3887870000")
+     (180 . "#859900")
+     (200 . "#5a5a94e92d2c")
+     (220 . "#43c39b9b43c3")
+     (240 . "#2d2da24c5a59")
+     (260 . "#1696a8fd70f0")
+     (280 . "#2aa198")
+     (300 . "#00009f9fa7a7")
+     (320 . "#00009797b7b7")
+     (340 . "#00008f8fc7c7")
+     (360 . "#268bd2"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
  ;; No startup screen
 
 (custom-set-faces
@@ -71,6 +149,18 @@
 (setq js-indent-level 2)
 
 (setq column-number-mode t)
+
+
+(menu-bar-mode -1)
+
+;; handles # files and stuff
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+    backup-by-copying t    ; Don't delink hardlinks
+    version-control t      ; Use version numbers on backups
+    delete-old-versions t  ; Automatically delete excess backups
+    kept-new-versions 20   ; how many of the newest versions to keep
+    kept-old-versions 5    ; and how many of the old
+    )
 
 ;; ===============
 ;; === ALIASES ===
@@ -131,7 +221,31 @@
 (global-set-key (kbd "C-q") 'iwb)   ;; Default binding is quoted-insert
 (global-set-key (kbd "C-f") 'kmacro-start-macro-or-insert-counter)  ;; Default = forward-char
 (global-set-key (kbd "C-g") 'kmacro-end-or-call-macro)  ;; Default = keyboard-quit
-(global-set-key (kbd "C-z") 'suspend-emacs)
+(global-set-key (kbd "C-z") 'suspend-frame)
+
+(defun next-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (next-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (next-buffer))))
+(global-set-key [remap next-buffer] 'next-code-buffer)
+
+(defun previous-code-buffer ()
+  (interactive)
+  (let (( bread-crumb (buffer-name) ))
+    (previous-buffer)
+    (while
+        (and
+         (string-match-p "^\*" (buffer-name))
+         (not ( equal bread-crumb (buffer-name) )) )
+      (previous-buffer))))
+(global-set-key [remap previous-buffer] 'previous-code-buffer)
+
+
 ;----------------------------------------
 
 ;; ================
@@ -215,6 +329,19 @@
      ;;(require 'robe)
      (require 'company)
      (require 'company-tern)
+     (defun setup-tide-mode ()
+       (interactive)
+       (tide-setup)
+       (flycheck-mode +1)
+       (setq flycheck-check-syntax-automatically '(save mode-enabled))
+       (eldoc-mode +1)
+       (tide-hl-identifier-mode +1)
+       ;; company is an optional dependency. You have to
+       ;; install it separately via package-install
+       ;; `M-x package-install [ret] company`
+       ;;(company-mode +1))
+       )
+
      (setq company-idle-delay 0.2
            company-echo-delay 0.0
            company-minimum-prefix-length 2
@@ -226,13 +353,24 @@
                            (tern-mode)))
      (define-key tern-mode-keymap (kbd "M-.") nil)
      (define-key tern-mode-keymap (kbd "M-,") nil)
-
+     ;;(add-hook 'js2-mode-hook 'setup-tide-mode)
      (require 'prettier-js)
       (require 'flow-minor-mode)
 
-     (require 'tide)
-     (setq tide-completion-detailed t)
-     (setq tide-always-show-documentation t)
+      ;;(require 'tide)
+      ;;(setq tide-completion-detailed t)
+      ;;(setq tide-always-show-documentation t)
+     ;; aligns annotation to the right hand side
+      ;;(setq company-tooltip-align-annotations t)
+
+     ;; formats the buffer before saving
+      ;;(add-hook 'before-save-hook 'tide-format-before-save)
+      (setq clean-buffer-list-delay-general 1)
+      (setq clean-buffer-list-delay-special (* 20 60))
+      (add-to-list 'clean-buffer-list-kill-regexps
+                   '("^\\*"))
+      (add-hook 'after-save-hook (lambda ()
+                                   (clean-buffer-list)))
 
      (setq prettier-js-args '(
                               "--trailing-comma" "none"
@@ -276,6 +414,8 @@
      (load-file "~/.dotfiles/el/realgud-nodejs.el")
      (setq realgud:nodejs-command-name "node inspect")
 
+
+     (setq ring-bell-function 'ignore)
      ;;(add-hook 'after-init-hook #'global-flycheck-mode)
      ;;(add-hook 'after-init-hook #'eslintd-fix-mode)
      ;;(add-to-list 'flycheck-disabled-checkers 'javascript-jshint)
@@ -321,7 +461,6 @@
      ;;(setq ac-ignore-case nil)
      ;;(add-to-list 'ac-modes 'enh-ruby-mode)
      ;;(add-to-list 'ac-modes 'web-mode)
-
      ;; ruby
      (add-hook 'enh-ruby-mode-hook 'robe-mode)
      (setq enh-ruby-program "~/.rbenv/versions/2.2.5/bin/ruby")
@@ -386,6 +525,10 @@ of FILE in the current directory, suitable for creation"
                           (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".eslintrc")))))
                             (when root
                               (setq-default flycheck-checker 'javascript-eslint)
+                              (add-hook 'after-save-hook 'eslintd-fix)
+                              ;; configure javascript-tide checker to run after your default javascript checker
+                              ;;(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+
 ))
                         
                           )
@@ -444,10 +587,11 @@ of FILE in the current directory, suitable for creation"
      (setq ac-js2-evaluate-calls t)
      (add-hook 'js2-mode-hook
           (lambda ()
-            (add-hook 'after-save-hook 'import-js-fix nil 'make-it-local)
+            (add-hook 'after-save-hook (lambda ()
+                                         (import-js-fix)
+                                         (flycheck-buffer)) nil 'make-it-local)
             (global-set-key (kbd "C-d") 'import-js-goto)
             ;;(require 'js2-highlight-vars-mode)
-            (js2-highlight-vars-mode)
             (require 'js2-refactor)
             (js2-refactor-mode)
             (setq js2-skip-preprocessor-directives t)
@@ -456,6 +600,7 @@ of FILE in the current directory, suitable for creation"
           )
      (add-hook 'js2-mode-hook 'flow-minor-enable-automatically)
      (add-hook 'js2-mode-hook 'prettier-js-mode)
+     (add-hook 'js2-mode-hook 'js2-highlight-vars-mode)
 
      (setq confirm-kill-processes nil)
 
@@ -516,13 +661,39 @@ of FILE in the current directory, suitable for creation"
 
      ;; Undo-tree
      (global-undo-tree-mode)
-
+(defun switch-theme (theme)
+  ;; This interactive call is taken from `load-theme'
+  (interactive
+   (list
+    (intern (completing-read "Load custom theme: "
+                             (mapcar 'symbol-name
+                                     (custom-available-themes))))))
+  (mapcar #'disable-theme custom-enabled-themes)
+  (load-theme theme t))
      ;; Color-theme
      ;; (require 'color-theme)
      (color-theme-initialize)
      (add-to-list 'custom-theme-load-path "~/.dotfiles/el/emacs-color-theme-solarized")
-     (load-theme 'solarized-dark t)
-     
+     (switch-theme 'solarized-dark)
+     (use-package panda-theme
+       :ensure t
+       :config
+       (load-theme 'panda t)
+       (custom-theme-set-faces 'panda
+                               '(default ((t (:background "#141414"))))
+                               '(js2-function-param ((t (:foreground "#35ffdc"))))
+                               '(js2-object-property ((t (:foreground "#cdcdcd"))))
+                          ))
+
+     ;;(use-package color-theme :ensure t)
+     ;;(use-package color-theme-solarized :ensure t)
+
+     ;;(defun my/setup-color-theme ()
+     ;;  (interactive)
+     ;;  (load-theme 'solarized-dark t))
+
+     ;;(eval-after-load 'color-theme (my/setup-color-theme))
+
      ;; Lua
      ;; (require 'lua-mode)
      (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
@@ -539,6 +710,62 @@ of FILE in the current directory, suitable for creation"
      ;; (require 'find-file-in-repository)
      ;;(global-set-key (kbd "C-w") 'find-file)
      ;;(global-set-key (kbd "C-x f") 'find-file-in-repository)
+
+     (defface mode-line-directory
+       '((t :background "gray" :foreground "gray"))
+       "Face used for buffer identification parts of the mode line."
+       :group 'mode-line-faces
+       :group 'basic-faces)
+     (setq mode-line-position
+            '(;; %p print percent of buffer above top of window, o Top, Bot or All
+              ;; (-3 "%p")
+              ;; %I print the size of the buffer, with kmG etc
+              ;; (size-indication-mode ("/" (-4 "%I")))
+              ;; " "
+              ;; %l print the current line number
+              ;; %c print the current column
+              (line-number-mode ("%l" (column-number-mode ":%c")))))
+     (defun shorten-directory (dir max-length)
+       "Show up to `max-length' characters of a directory name `dir'."
+       (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+             (output ""))
+         (when (and path (equal "" (car path)))
+           (setq path (cdr path)))
+       (while (and path (< (length output) (- max-length 4)))
+         (setq output (concat (car path) "/" output))
+         (setq path (cdr path)))
+       (when path
+         (setq output (concat ".../" output)))
+       output))
+     (defvar mode-line-directory
+  '(:propertize
+    (:eval (if (buffer-file-name) (concat " " (shorten-directory default-directory 20)) " "))
+                face mode-line-directory)
+  "Formats the current directory.")
+     (put 'mode-line-directory 'risky-local-variable t)
+     (setq-default mode-line-buffer-identification
+                   (propertized-buffer-identification "%b "))
+
+     (setq-default mode-line-format
+      '("%e"
+        ;;mode-line-front-space
+        ;; mode-line-mule-info
+        ;;mode-line-client
+        ;;mode-line-modified
+        ;; mode-line-remote
+        mode-line-frame-identification
+        " "
+        mode-line-directory
+        mode-line-buffer-identification
+        " "
+        mode-line-position
+        ;;(vc-mode vc-mode)  -- I use magit, not vc-mode
+        ;;(flycheck-mode flycheck-mode-line)
+        " "
+        ;;mode-line-modes
+        ;;mode-line-misc-info
+        ;;mode-line-end-spaces))
+        ))
 
      (ido-mode 1)
      (ido-everywhere 1)
