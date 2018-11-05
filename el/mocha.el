@@ -162,7 +162,7 @@ IF TEST is specified run mocha with a grep for just that test."
          (target (if test (concat "--fgrep '" test "' ") ""))
          (node-command (concat mocha-which-node (if debug (concat " --debug=" mocha-debug-port) "")))
          (options (concat mocha-options (if debug " -t 21600000")))
-         (options (concat options (concat " --reporter " mocha-reporter)))
+         ;; (options (concat options (concat " --reporter " mocha-reporter)))
          (opts-file (mocha-opts-file path)))
     (when opts-file
       (setq options (concat options (if opts-file (concat " --opts " opts-file)))))
@@ -171,6 +171,7 @@ IF TEST is specified run mocha with a grep for just that test."
             mocha-command " "
             options " "
             target
+            "test/index.js" " "
             path)))
 
 (defun mocha-debugger-get (debugger-name prop)
@@ -291,30 +292,34 @@ If there is no wrapping 'describe' or 'it' found, return nil."
   (interactive)
   (mocha-debug))
 
+(defun relative-buf-name ()
+  (rename-buffer
+   (file-relative-name buffer-file-name (projectile-project-root))))
+
 ;;;###autoload
 (defun mocha-test-file ()
   "Test the current file."
   (interactive)
-  (mocha-run (buffer-file-name)))
+  (mocha-run (relative-buf-name)))
 
 ;;;###autoload
 (defun mocha-debug-file ()
   "Debug the current file."
   (interactive)
-  (mocha-debug (buffer-file-name)))
+  (mocha-debug (relative-buf-name)))
 
 ;;;###autoload
 (defun mocha-test-at-point ()
   "Test the current innermost 'it' or 'describe' or the file if none is found."
   (interactive)
-  (let ((file (buffer-file-name)) (test-at-point (mocha-find-current-test)))
+  (let ((file (relative-buf-name)) (test-at-point (mocha-find-current-test)))
     (mocha-run file test-at-point)))
 
 ;;;###autoload
 (defun mocha-debug-at-point ()
   "Debug the current innermost 'it' or 'describe' or the file if none is found."
   (interactive)
-  (let ((file (buffer-file-name)) (test-at-point (mocha-find-current-test)))
+  (let ((file (relative-buf-name)) (test-at-point (mocha-find-current-test)))
     (mocha-debug file test-at-point)))
 
 (defun mocha--get-callsite-name (node)
