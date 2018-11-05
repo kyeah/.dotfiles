@@ -27,7 +27,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -388,13 +388,18 @@ of FILE in the current directory, suitable for creation"
      (setq js2-mode-show-parse-errors nil)
      (setq js2-mode-show-strict-warnings nil)
      (require 'js2-mode)
-     ;;(add-hook 'js-mode-hook 'js2-mode)
+     (add-hook 'js-mode-hook 'js2-mode)
      ;;(add-hook 'js-mode-hook 'js2-minor-mode)
      (add-hook 'js-mode-hook 'run-import-js)
      (add-hook 'js2-mode-hook 'ac-js2-mode)
      (setq ac-js2-evaluate-calls t)
-     (add-hook 'after-save-hook 'import-js-fix)
-     (global-set-key (kbd "C-x e") 'import-js-goto)
+     (add-hook 'js-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook 'import-js-fix nil 'make-it-local)
+            (global-set-key (kbd "C-x e") 'import-js-goto))
+          )
+     (add-hook 'comint-exec-hook 
+      (lambda () (set-process-query-on-exit-flag (get-buffer-process (current-buffer)) nil)))
 
      ;; projectile
      ;; (require 'grizzl)
