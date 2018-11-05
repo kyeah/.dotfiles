@@ -27,7 +27,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -175,12 +175,22 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor company-tern))
 
-     (use-package rainbow-delimiters
-       :ensure t
-       :config
-       (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+     ;; (use-package rainbow-delimiters
+     ;;   :ensure t
+     ;;   :config
+     ;;   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+     ;;   (custom-set-faces
+     ;;    '(rainbow-delimiters-depth-1-face ((t (:foreground "deep sky blue"))))
+     ;;    '(rainbow-delimiters-depth-2-face ((t (:foreground "dark orange"))))
+     ;;    '(rainbow-delimiters-depth-3-face ((t (:foreground "yellow"))))
+     ;;    '(rainbow-delimiters-depth-4-face ((t (:foreground "chartreuse"))))
+     ;;    '(rainbow-delimiters-depth-5-face ((t (:foreground "orchid"))))
+     ;;    '(rainbow-delimiters-depth-6-face ((t (:foreground "spring green"))))
+     ;;    '(rainbow-delimiters-depth-7-face ((t (:foreground "sienna1")))))
+     ;;    '(rainbow-delimiters-depth-8-face ((t (:foreground "deep pink"))))
+     ;;   )
 
      (use-package rainbow-mode
        :ensure t
@@ -192,7 +202,7 @@
        :ensure t
        :config
        (setq git-link-open-in-browser t)
-       (global-map-key (kbd "C-c g") 'git-link)
+       (global-set-key (kbd "C-c g") 'git-link)
        )
 
      (setq ruby-insert-encoding-magic-comment nil)
@@ -204,14 +214,20 @@
      ;; robe
      ;;(require 'robe)
      (require 'company)
-     (add-hook 'after-init-hook 'global-company-mode)
+     (require 'company-tern)
      (setq company-idle-delay 0.2
            company-echo-delay 0.0
            company-minimum-prefix-length 2
            company-tooltip-flip-when-above t
            company-dabbrev-downcase nil)
+     (add-hook 'after-init-hook 'global-company-mode)
+     (add-to-list 'company-backends 'company-tern)
+     (add-hook 'js2-mode-hook (lambda ()
+                           (tern-mode)))
+     (define-key tern-mode-keymap (kbd "M-.") nil)
+     (define-key tern-mode-keymap (kbd "M-,") nil)
 
-      (require 'prettier-js)
+     (require 'prettier-js)
       (require 'flow-minor-mode)
 
      (require 'tide)
@@ -397,11 +413,20 @@ of FILE in the current directory, suitable for creation"
      ;;            (local-set-key (kbd "C-c k") 'rspec-compile-file)
      ;;            ))
 
+     (load-file "~/.dotfiles/el/mocha.el")
      (global-set-key (kbd "C-c l") 'mocha-test-at-point)
      (global-set-key (kbd "C-c k") 'mocha-test-file)
-     ;; (setq mocha-which-node "docker-compose exec app node")
-     (setq mocha-command "node_modules/.bin/mocha")
-     ;; (setq mocha-reporter "dot")
+     (setq mocha-which-node "docker-compose exec app node")
+     (setq mocha-environment-variables "NODE_ENV=test")
+     (setq mocha-command "node_modules/.bin/nyc --cache --reporter=text-summary --reporter=html node_modules/.bin/mocha --exit --recursive --timeout 10000 --forbid-only")
+
+     ;; Load .env into emacs
+     (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".git")))))
+       (when root
+         (when (file-exists-p (format "%s.env" root))
+           (load-file "~/.dotfiles/el/parsenv.el")
+           (parsenv-load-env (format "%s.env" root))
+           (parsenv-adjust-exec-path))))
 
      (setq js2-mode-show-parse-errors nil)
      (setq js2-mode-show-strict-warnings nil)
