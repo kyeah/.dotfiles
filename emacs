@@ -27,7 +27,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(transient-mark-mode t))
  ;; No startup screen
 
@@ -175,7 +175,25 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor))
+
+     (use-package rainbow-delimiters
+       :ensure t
+       :config
+       (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+     (use-package rainbow-mode
+       :ensure t
+       :config
+       (setq rainbow-x-colors nil)
+       (add-hook 'prog-mode-hook 'rainbow-mode))
+
+     (use-package git-link
+       :ensure t
+       :config
+       (setq git-link-open-in-browser t)
+       (global-map-key (kbd "C-c g") 'git-link)
+       )
 
      (setq ruby-insert-encoding-magic-comment nil)
 
@@ -397,7 +415,14 @@ of FILE in the current directory, suitable for creation"
      (add-hook 'js2-mode-hook
           (lambda ()
             (add-hook 'after-save-hook 'import-js-fix nil 'make-it-local)
-            (global-set-key (kbd "C-x e") 'import-js-goto))
+            (global-set-key (kbd "C-d") 'import-js-goto)
+            ;;(require 'js2-highlight-vars-mode)
+            (js2-highlight-vars-mode)
+            (require 'js2-refactor)
+            (js2-refactor-mode)
+            (setq js2-skip-preprocessor-directives t)
+            (js2r-add-keybindings-with-prefix "C-c C-a")
+            )
           )
      (add-hook 'js2-mode-hook 'flow-minor-enable-automatically)
      (add-hook 'js2-mode-hook 'prettier-js-mode)
