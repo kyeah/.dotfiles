@@ -151,7 +151,8 @@
 
 (setq column-number-mode t)
 
-
+;; autosave is really annoying with emacs daemon
+(auto-save-mode -1)
 (menu-bar-mode -1)
 
 ;; handles # files and stuff
@@ -161,6 +162,7 @@
     delete-old-versions t  ; Automatically delete excess backups
     kept-new-versions 20   ; how many of the newest versions to keep
     kept-old-versions 5    ; and how many of the old
+    auto-save-list-file-prefix (concat "~/.emacs.d/backup/" ".auto-saves-")
     )
 
 ;; ===============
@@ -368,8 +370,8 @@
       ;;(add-hook 'before-save-hook 'tide-format-before-save)
       (setq clean-buffer-list-delay-general 1)
       (setq clean-buffer-list-delay-special (* 20 60))
-      (add-to-list 'clean-buffer-list-kill-regexps
-                   '("^\\*"))
+      ;;(add-to-list 'clean-buffer-list-kill-regexps
+      ;;             '("^\\*"))
       (add-hook 'after-save-hook (lambda ()
                                    (clean-buffer-list)))
 
@@ -568,6 +570,7 @@ of FILE in the current directory, suitable for creation"
      (load-file "~/.dotfiles/el/mocha.el")
      (global-set-key (kbd "C-c l") 'mocha-test-at-point)
      (global-set-key (kbd "C-c k") 'mocha-test-file)
+     (global-set-key (kbd "C-c ;") 'mocha-debug-at-point)
      (setq mocha-which-node "docker-compose exec app node")
      (setq mocha-environment-variables "NODE_ENV=test")
      (setq mocha-command "node_modules/.bin/nyc --cache --reporter=text-summary --reporter=html node_modules/.bin/mocha --exit --recursive --timeout 10000 --forbid-only")
@@ -583,8 +586,8 @@ of FILE in the current directory, suitable for creation"
 
      (setq js2-mode-show-parse-errors nil)
      (setq js2-mode-show-strict-warnings nil)
-     (require 'js2-mode)
-     (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+     ;;(require 'js2-mode)
+     
      ;;(add-hook 'js-mode-hook 'js2-mode)
      ;;(add-hook 'js-mode-hook 'js2-minor-mode)
      (add-hook 'js2-mode-hook 'run-import-js)
@@ -606,6 +609,8 @@ of FILE in the current directory, suitable for creation"
      (add-hook 'js2-mode-hook 'flow-minor-enable-automatically)
      (add-hook 'js2-mode-hook 'prettier-js-mode)
      (add-hook 'js2-mode-hook 'js2-highlight-vars-mode)
+     (autoload 'js2-mode "js2-mode" "Some documentation." t)
+     (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
      (setq confirm-kill-processes nil)
 
@@ -676,19 +681,32 @@ of FILE in the current directory, suitable for creation"
   (mapcar #'disable-theme custom-enabled-themes)
   (load-theme theme t))
      ;; Color-theme
-     ;; (require 'color-theme)
+     (require 'color-theme)
      (color-theme-initialize)
      (add-to-list 'custom-theme-load-path "~/.dotfiles/el/emacs-color-theme-solarized")
      (switch-theme 'solarized-dark)
+     (custom-theme-set-faces 'solarized-dark
+                              '(default ((t (:background "#141414"))))
+                              '(js2-function-param ((t (:foreground "#35ffdc"))))
+                              '(js2-function-call ((t (:foreground "#DADA93"))))
+                              '(js2-object-property ((t (:foreground "#ffffff"))))
+                              '(js2-object-property-access ((t (:foreground "#ffffff"))))
+                              )
      (use-package panda-theme
        :ensure t
-       :config
-       (load-theme 'panda t)
-       (custom-theme-set-faces 'panda
-                               '(default ((t (:background "#141414"))))
-                               '(js2-function-param ((t (:foreground "#35ffdc"))))
-                               '(js2-object-property ((t (:foreground "#cdcdcd"))))
-                          ))
+       )
+
+     (load-theme 'panda t)
+
+     (custom-theme-set-faces 'panda
+                             '(default ((t (:background "#141414"))))
+                             '(js2-function-param ((t (:foreground "#35ffdc"))))
+                             '(js2-function-call ((t (:foreground "#DADA93"))))
+                             '(js2-object-property ((t (:foreground "#ffffff"))))
+                             '(js2-object-property-access ((t (:foreground "#ffffff"))))
+                             '(flycheck-error)
+                             )
+
 
      ;;(use-package color-theme :ensure t)
      ;;(use-package color-theme-solarized :ensure t)
@@ -717,7 +735,7 @@ of FILE in the current directory, suitable for creation"
      ;;(global-set-key (kbd "C-x f") 'find-file-in-repository)
 
      (defface mode-line-directory
-       '((t :background "gray" :foreground "gray"))
+       '((t :background "#000000":foreground "#cdcdcd"))
        "Face used for buffer identification parts of the mode line."
        :group 'mode-line-faces
        :group 'basic-faces)
