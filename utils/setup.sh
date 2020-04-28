@@ -2,7 +2,6 @@ sudo apt-get install pip git subversion emacs-24.3 redshift imagemagick ruby rub
 sudo pip howdoi
 sudo gem install bropages
 sudo npm -g install jade html2jade
-
 # Android Studio / GenyMotion
 # intellij
 # CCCP or Similar Codec Pack

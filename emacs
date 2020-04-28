@@ -70,7 +70,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (flycheck-flow solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (php-mode json-mode clojure-mode markdown-mode+ markdown-mode flycheck-flow solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(scroll-bar-mode nil t)
@@ -148,22 +148,31 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (setq js-indent-level 2)
+(setq typescript-indent-level 2)
 
 (setq column-number-mode t)
 
 ;; autosave is really annoying with emacs daemon
 (auto-save-mode -1)
 (menu-bar-mode -1)
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+(global-auto-revert-mode t)
 
 ;; handles # files and stuff
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-    backup-by-copying t    ; Don't delink hardlinks
-    version-control t      ; Use version numbers on backups
-    delete-old-versions t  ; Automatically delete excess backups
-    kept-new-versions 20   ; how many of the newest versions to keep
-    kept-old-versions 5    ; and how many of the old
-    auto-save-list-file-prefix (concat "~/.emacs.d/backup/" ".auto-saves-")
-    )
+(setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+;;(setq create-lockfiles nil)
+;; (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+;;     backup-by-copying t    ; Don't delink hardlinks
+;;     version-control t      ; Use version numbers on backups
+;;     delete-old-versions t  ; Automatically delete excess backups
+;;     kept-new-versions 20   ; how many of the newest versions to keep
+;;     kept-old-versions 5    ; and how many of the old
+;;     auto-save-list-file-prefix (concat "~/.emacs.d/backup/" ".auto-saves-")
+;;     )
 
 ;; ===============
 ;; === ALIASES ===
@@ -354,7 +363,8 @@
      (add-to-list 'company-backends 'company-tern)
      (add-to-list 'company-backends 'company-flow)
      (add-hook 'js2-mode-hook (lambda ()
-                           (tern-mode)))
+                                (tern-mode)
+                                (setq tern-command (append tern-command '("--no-port-file")))))
      (define-key tern-mode-keymap (kbd "M-.") nil)
      (define-key tern-mode-keymap (kbd "M-,") nil)
      ;;(add-hook 'js2-mode-hook 'setup-tide-mode)
@@ -466,7 +476,7 @@
      ;;(add-to-list 'ac-modes 'web-mode)
      ;; ruby
      (add-hook 'enh-ruby-mode-hook 'robe-mode)
-     (setq enh-ruby-program "~/.rbenv/versions/2.2.5/bin/ruby")
+     (setq enh-ruby-program "/Users/kyeah/.rbenv/versions/2.5.3/bin/ruby")
      (autoload 'enh-ruby-mode "enh-ruby-mode" "Major mode for ruby files" t)
      (add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
      (add-to-list 'auto-mode-alist '("\\.rake$" . enh-ruby-mode))
@@ -516,6 +526,19 @@ of FILE in the current directory, suitable for creation"
 
      ;; flycheck eslint_d / standard
      (require 'eslintd-fix)
+
+     (defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+     
      (use-package flycheck
                   :ensure t
                   :config (progn
@@ -533,11 +556,19 @@ of FILE in the current directory, suitable for creation"
                             (when root
                               (setq-default flycheck-checker 'javascript-eslint)
                               (add-hook 'after-save-hook 'eslintd-fix)))
-                              ;; configure javascript-tide checker to run after your default javascript checker
-                              ;;(flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+                          ))
 
-))
-                        
+                          (add-hook 'typescript-mode-hook (lambda ()
+                          (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root "tslint.json")))))
+                            (when root
+                              (setq-default flycheck-checker 'typescript-tslint)
+                              ;; formats the buffer before saving
+                              (add-hook 'before-save-hook 'tide-format-before-save)
+                              (add-hook 'typescript-mode-hook #'setup-tide-mode)
+                              ;; configure javascript-tide checker to run after your default javascript checker
+                              (flycheck-add-next-checker 'javascript-eslint 'javascript-tide 'append)
+                              ))
+                          ))
                           )
                   )
 
@@ -574,7 +605,7 @@ of FILE in the current directory, suitable for creation"
      (setq mocha-which-node "docker-compose exec app node")
      (setq mocha-environment-variables "NODE_ENV=test")
      (setq mocha-command "node_modules/.bin/nyc --cache --reporter=text-summary --reporter=html node_modules/.bin/mocha --exit --recursive --timeout 10000 --forbid-only")
-     (setq mocha-debug-port "9230")
+     (setq mocha-debug-port "9229")
 
      ;; Load .env into emacs
      (let ((root (ignore-errors (expand-file-name (get-closest-gemfile-root ".git")))))
@@ -595,12 +626,12 @@ of FILE in the current directory, suitable for creation"
      (setq ac-js2-evaluate-calls t)
      (add-hook 'js2-mode-hook
           (lambda ()
-            (add-hook 'after-save-hook (lambda ()
-                                         (import-js-fix)
-                                         (flycheck-buffer)) nil 'make-it-local)
+            ;; (add-hook 'after-save-hook (lambda ()
+            ;;                              (import-js-fix)
+            ;;                              (flycheck-buffer)) nil 'make-it-local)
             (global-set-key (kbd "C-d") 'import-js-goto)
             ;;(require 'js2-highlight-vars-mode)
-            (require 'js2-refactor)
+            ;;(require 'js2-refactor)
             (js2-refactor-mode)
             (setq js2-skip-preprocessor-directives t)
             (js2r-add-keybindings-with-prefix "C-c C-a")
@@ -689,8 +720,8 @@ of FILE in the current directory, suitable for creation"
                               '(default ((t (:background "#141414"))))
                               '(js2-function-param ((t (:foreground "#35ffdc"))))
                               '(js2-function-call ((t (:foreground "#DADA93"))))
-                              '(js2-object-property ((t (:foreground "#ffffff"))))
-                              '(js2-object-property-access ((t (:foreground "#ffffff"))))
+;;                              '(js2-object-property ((t (:foreground "#dfffff"))))
+;;                              '(js2-object-property-access ((t (:foreground "#ffdeff"))))
                               )
      (use-package panda-theme
        :ensure t
@@ -702,9 +733,9 @@ of FILE in the current directory, suitable for creation"
                              '(default ((t (:background "#141414"))))
                              '(js2-function-param ((t (:foreground "#35ffdc"))))
                              '(js2-function-call ((t (:foreground "#DADA93"))))
-                             '(js2-object-property ((t (:foreground "#ffffff"))))
-                             '(js2-object-property-access ((t (:foreground "#ffffff"))))
-                             '(flycheck-error)
+                             '(flycheck-error ((t (:foreground "red"))))
+;;                              '(js2-object-property ((t (:foreground "#dfffff"))))
+;;                             '(js2-object-property-access ((t (:foreground "#ffefff"))))
                              )
 
 
@@ -832,3 +863,4 @@ of FILE in the current directory, suitable for creation"
   )
 
 ;; (require 'haskell-mode)
+(put 'upcase-region 'disabled nil)

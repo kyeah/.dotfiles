@@ -1,28 +1,31 @@
 # Pyenv is removing the default ability to append pyenv environment
 # to the prompt. This export removes the deprecation warning.
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+#export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
+export DOCKER_BUILDKIT=1
+#export NODE_PATH=/usr/local/lib/node_modules
+
+
+alias cmsv='sh ~/.dotfiles/utils/openconnect.sh'
 
 # But since adding pyenv to the prompt is useful anyway, this function
 # re-adds it.
-__pyenv_version_ps1 ()
-{
-    local ret=$?;
-    if [ -n "${PYENV_VERSION}" ]; then
-        echo -n "(${PYENV_VERSION}) "
-    fi
-    return $?
-}
+# __pyenv_version_ps1 ()
+# {
+#     local ret=$?;
+#     if [ -n "${PYENV_VERSION}" ]; then
+#         echo -n "(${PYENV_VERSION}) "
+#     fi
+#     return $?
+# }
 
-PS1="\$(__pyenv_version_ps1)${PS1}"
+# PS1="\$(__pyenv_version_ps1)${PS1}"
 
-# Init pyenv
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# # Init pyenv
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
 
-# Default duration for MFA
-export MFA_STS_DURATION=3600
-
-export JAVA_HOME=/home/kyeh/Programs/jdk1.8.0_40
+#export JAVA_HOME=/home/kyeh/Programs/jdk1.8.0_40
 export RUST_TEST_THREADS=1
 
 #alias java='/usr/lib/jvm/jdk1.8.0_40/bin/java'
@@ -52,7 +55,7 @@ export editor='emacsclient -nw'
 export EDITOR='emacsclient -nw'
 # export LD_LIBRARY_PATH=:/opt/OGRE-1.8/lib:$HOME/cs/git/Fractal-Evolution/C-Genetics/libs/AntTweakBar/lib
 # export PKG_CONFIG_PATH=:/opt/OGRE-1.8/lib/pkgconfig
-export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin:/usr/local/Cellar/node/10.1.0/bin/
+#export PATH=$PATH:$HOME/bin:$HOME/Programs/spark-1.2.0-bin-hadoop2.4/bin:$HOME/.rvm/bin:$HOME/bin/gibo:$HOME/Programs/android-studio/bin:$Home/Programs/genymotion:$Home/Programs/spark-1.2.0-bin-hadoop2.4/bin:/$HOME/Programs/idea-IC-139.224.1/bin:$HOME/mongodb3.0.3/bin:/usr/local/opt/go/libexec/bin:/Users/kevinyeh/.cargo/bin:/usr/local/Cellar/node/10.1.0/bin/
 export GOPATH=$HOME/jam/go
 export SPARK_HOME=$HOME/Programs/spark-1.2.0-bin-hadoop2.4
 export GEOTRELLIS_HOME=$HOME/cs/git/geotrellis/spark/target/scala-2.10
@@ -72,6 +75,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
+alias ssh='ssh-ident'
 
 alias pwd="pwda"
 alias psa="ps aux"
@@ -128,7 +132,7 @@ alias awls='awless list instances --columns="id,zone,name,state,type,public ip,p
 
 alias awlss='awless list instances --columns="id,name,state,private ip,uptime,vpc" --sort="name,private ip,vpc"'
 
-alias awsqpp='export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops && aws-mfa' # && awless switch $AWS_PROFILE us-east-1'
+alias awsqpp='export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops && aws-mfa --duration 40000' # && awless switch $AWS_PROFILE us-east-1'
 
 
 alias t='terraform'
@@ -147,15 +151,15 @@ alias back='bd'
 alias push='pushd'
 alias pop='popd'
 
-function cd() {
-    if [ $# -eq 0 ]; then
-    DIR="${HOME}"
-  else
-    DIR="$1"
-  fi
+# function cd() {
+#     if [ $# -eq 0 ]; then
+#     DIR="${HOME}"
+#   else
+#     DIR="$1"
+#   fi
  
-  builtin pushd "${DIR}" > /dev/null
-}
+#   builtin pushd "${DIR}" > /dev/null
+# }
 
 shopt -s cmdhist        # Combine multiline commands into one in history
 shopt -s histappend
@@ -385,7 +389,7 @@ function mcd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
 awsqppr () {
     export AWS_PROFILE=aws-hhs-cms-ccsq-qpp-navadevops
-    aws-mfa
+    aws-mfa --duration 40000
     # awless switch $AWS_PROFILE us-east-1
     osascript - title <<END
 on run a
@@ -425,13 +429,13 @@ export -f detach
 export -f sr
 
 ### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+#export PATH="/usr/local/heroku/bin:$PATH"
 #source ~/.bashrc
 echo hi
-export JAVA_HOME=$(/usr/libexec/java_home)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+#export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 alias javacheck="mvn -Dcheckstyle.config.location=../kickstarter-checkstyle.xml clean checkstyle:check"
 export REDSHIFT_USERNAME=kyeh
 alias redshift='psql -U $REDSHIFT_USERNAME -h redshift.ksr.io -p 5439 -d kickstarter'
@@ -445,9 +449,26 @@ redshift_sql() {
 #export GEM_PATH=$GEM_PATH:/Library/Ruby/Gems/2.0.0/gems
 #export GEM_SPEC_CACHE=/Users/kevinyeh/.rbenv/versions/2.2.5/lib/ruby/gems/specs
 #export PATH=$PATH:/Users/kevinyeh/.rbenv/shims
-export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
+#export PATH=/Users/kevinyeh/code/kickstarter/bin:$PATH
 
-if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
-export PATH="$HOME/.yarn/bin:$PATH"
+#if [ -e ~/.ksr.rc ]; then source ~/.ksr.rc; fi # Provisioned by ksr laptop script
+#export PATH="$HOME/.yarn/bin:$PATH"
 
-export PATH="$HOME/.cargo/bin:$PATH"
+#export PATH="$HOME/.cargo/bin:$PATH"
+#export NVM_DIR="$HOME/.nvm"
+##[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+##[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kyeah/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/Users/kyeah/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kyeah/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/kyeah/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+
+export PATH=$HOME/.asdf/shims:$PATH
+. $(brew --prefix asdf)/asdf.sh
+
+alias le="exa --group-directories-first --git -I node_modules --long --git-ignore"
+alias cc="le"
+
+source /Users/kyeah/Library/Preferences/org.dystroy.broot/launcher/bash/br
