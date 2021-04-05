@@ -70,7 +70,7 @@
     ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
  '(package-selected-packages
    (quote
-    (php-mode json-mode clojure-mode markdown-mode+ markdown-mode flycheck-flow solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
+    (elpy blacken py-autopep8 auto-package-update rego-mode php-mode json-mode clojure-mode markdown-mode+ markdown-mode flycheck-flow solarized-theme realgud indium git-link js2-highlight-vars ac-js2 import-js js-import flow-minor-mode prettier-js tide company-flow exec-path-from-shell eruby-mode docker-compose-mode dockerfile-mode terraform-mode js-doc benchmark-init coverlay mocha flycheck groovy-mode eslintd-fix elixir-mode yaml-mode web-mode undo-tree textmate sws-mode smex smartparens scala-mode rubocop robe rainbow-mode projectile-rails project-explorer multiple-cursors lua-mode jade-mode ido-vertical-mode icicles helm haskell-mode handlebars-mode haml-mode grizzl go-mode flymake-ruby floobits find-file-in-repository enh-ruby-mode dash-at-point company column-marker color-theme c-eldoc auto-complete-etags ag ace-jump-mode ac-racer ac-inf-ruby)))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(scroll-bar-mode nil t)
@@ -301,7 +301,7 @@
         (or (package-installed-p package)
             (if (y-or-n-p (format "Package %s is missing. Install it? " package))
                 (package-install package))))
-      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor company-tern flycheck-flow))
+      '(auto-complete ag enh-ruby-mode projectile rainbow-mode dash-at-point multiple-cursors textmate web-mode c-eldoc jade-mode floobits color-theme undo-tree haskell-mode lua-mode scala-mode go-mode rust-mode find-file-in-repository smex ido-vertical-mode robe grizzl smartparens rubocop flymake-ruby eslintd-fix flycheck mocha helm-ls-git coverlay tide company-flow prettier-js flow-minor-mode import-js js2-highlight-vars js2-refactor company-tern flycheck-flow elpy py-autopep8 blacken))
 
      ;; (use-package rainbow-delimiters
      ;;   :ensure t
@@ -336,6 +336,11 @@
      (require 'benchmark-init)
      ;; To disable collection of benchmark data after init is done.
      (add-hook 'after-init-hook 'benchmark-init/deactivate)
+
+     ;; Enable autopep8
+     (require 'py-autopep8)
+     (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
 
      ;; robe
      ;;(require 'robe)
@@ -571,6 +576,14 @@ of FILE in the current directory, suitable for creation"
                           ))
                           )
                   )
+
+     ;; Enable elpy
+     ;; (elpy-enable)
+     
+     ;; Enable Flycheck     
+     ;;(when (require 'flycheck nil t)
+     ;;(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+     ;;(add-hook 'elpy-mode-hook 'flycheck-mode))
 
 
      (defun rspec-compile-file ()

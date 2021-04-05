@@ -50,6 +50,7 @@ done
 export PS1='\[\033[0;33m\]\W:\[\033[00m\] '
 export TERM=xterm-256color
 export LSCOLORS="BaGxcxdxCxegedabagacad"
+export DOCKER_LSCOLORS=$LSCOLORS
 #export GREP_OPTIONS='--color=auto -n'
 export editor='emacsclient -nw'
 export EDITOR='emacsclient -nw'
@@ -178,6 +179,7 @@ alias brb="bundle exec rails c"
 alias best="bundle exec rake test"
 alias gcoi="!git branch | cut -c 3- | fzf --reverse --preview 'git show {}' | xargs git checkout"
 alias gs="git status"
+alias gbs="git branch --show-current"
 alias gg="git grep"
 alias gca="git commit --amend"
 alias gcm="git commit -m"
@@ -191,10 +193,10 @@ alias ga="git add"
 alias gp="git pull"
 alias gu="gitunstage"
 alias gi="gitinfo"
-alias gb="gitbranch"
+#alias gb="gitbranch"
 alias gbv="git branch -v"
 alias ghide="git-unchanged"
-alias gh="ghide"
+alias gh="git log -p"
 alias gbme='git for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"' # last 10 branches worked on (personal)
 alias gla="git log --all --oneline --no-merges --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative" # recent history across all branches (non-personal)
 alias glme='gla --author=kevinyeah@utexas.edu' # recent history (personal)
@@ -206,7 +208,7 @@ alias gitlog="git log --graph --pretty=format:'%C(yellow)%h%Creset -%Cred%d%Cres
 alias gitrma="!sh -c \"git diff -z --name-only --diff-filter=D | xargs -0 git rm\""
 alias gitunstage="git reset HEAD"
 alias gitinfo="git remote show origin"
-alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
+#alias gitbranch="git branch 2> /dev/null | sed -e \"/^[^*]/d\" -e \"s/* \(.*\)/(git:\1)/\""
 alias git-forcetohead="git fetch --all; git reset --hard origin/master"
 alias git-unchanged="git update-index --skip-worktree"
 
@@ -411,6 +413,31 @@ end
 END
 }
 
+function gb () {
+    git checkout $(git branch --sort=-committerdate --format="%(committerdate:short) %(refname:short)" | fzf --reverse +s | rev | cut -d\  -f1 | rev)
+}
+
+function pr () {
+    git checkout $(hub pr list -f "%>(15)%au%>(8)%i%pC  %<(80)%t %Creset %H%n" | fzf --reverse | rev | cut -d\  -f1 | rev)
+}
+
+function prme () {
+    git checkout $(hub pr list -f "%>(15)%au%>(8)%i%pC  %<(80)%t %Creset %H%n" | grep kyeah | fzf --reverse | rev | cut -d\  -f1 | rev)
+}
+
+function pri () {
+    git checkout $(hub pr list -f "%>(15)%au%>(8)%i%pC  %<(80)%t %Creset %H%n" | grep -e aplybeah -e kyeah -e apopma -e ChrisAshton -e paz-focus | fzf --reverse | rev | cut -d\  -f1 | rev)
+}
+
+function e () {
+    emacs $(fzf --reverse --preview 'cat {}')
+}
+
+export -f gb
+export -f pr
+export -f prme
+export -f pri
+
 export -f awsqppr
 export -f fgkill
 export -f opendir
@@ -472,3 +499,39 @@ alias le="exa --group-directories-first --git -I node_modules --long --git-ignor
 alias cc="le"
 
 source /Users/kyeah/Library/Preferences/org.dystroy.broot/launcher/bash/br
+
+export RUN_CMD_OPT=DOCKER_EXEC
+export DOCKER_PS1="🐳 $PS1"
+export JQ_COLORS="1;30:0;31:0;32:0;35:0;33:1;35:1;35"
+
+function dlogs() {
+    make logs | while read -r line
+    do
+        match=$(echo "$line" | grep --only-matching {.*})
+        if [ ! -z "$match" ]; then
+            err=$(echo "$match" | jq -e '.exc_text')
+            if [ $? -eq 0 ]; then
+                echo -e "$err"
+            else
+                echo "$match" | jq -r '
+
+def colors:
+ {
+ "blue": "\u001b[0;36m",
+ "yellow": "\u001b[0;33m",
+ "white": "\u001b[37m",
+ "reset": "\u001b[0m"
+}; 
+
+def lpad($len; $fill): tostring | ($len - ([length, $len] | min)) as $l | ($fill * $l)[:$l] + .[0:$len];
+
+.name |= (sub("massgov\\.pfml\\.";"") | lpad(15; " ")) | colors.blue + "\(.name)│ " + colors.yellow + "(\(.funcName)) " + colors.white + "\(.message)"'
+            fi
+        else
+            echo "$line"
+        fi
+    done
+}
+
+
+alias drun='RUN_CMD_OPT=DOCKER_RUN'
