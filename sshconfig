@@ -1,9 +1,14 @@
 Host *
  AddKeysToAgent yes
-  UseKeychain yes
-   IdentityFile ~/.ssh/id_rsa
-   IdentitiesOnly yes
- ForwardAgent yes
+ UseKeychain yes
+ IdentityFile ~/.ssh/id_ed25519
+
+#Host *
+# AddKeysToAgent yes
+#  UseKeychain yes
+#   IdentityFile ~/.ssh/id_rsa
+#   IdentitiesOnly yes
+# ForwardAgent yes
 
 Host ssh.ksr.io
   User ksr
