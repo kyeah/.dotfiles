@@ -4,10 +4,9 @@ TYPE_IGNORE=1
 TYPE_LINK=2
 TYPE_SPECIAL=3
 
-ignore=( el utils backups zsh )
+ignore=( el utils backups zsh firefoxCSS )
 special=( terminalrc sshconfig )
 specialpath=( ~/.config/xfce4/terminal/terminalrc ~/.ssh/config )
-
 DIR=~/.dotfiles
 
 cd $DIR
