@@ -80,7 +80,6 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias ssh='ssh-ident'
 
-alias pwd="pwda"
 alias psa="ps aux"
 alias fgls='jobs'
 alias fgka='for x in `jobs -p`; do kill -9 $x; done' # KILL ALL JOBS!!!!
@@ -541,3 +540,8 @@ bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 bindkey "\e[1;5C" forward-word
 bindkey "\e[1;5D" backward-word
+bindkey "[D" backward-word
+bindkey "[C" forward-word
+
+  export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
+  export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
